@@ -14,5 +14,8 @@
     "mongoose": "^8.6.0",
     "node-fetch": "^3.3.2",
     "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.5"
   }
 }
