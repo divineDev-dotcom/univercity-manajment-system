@@ -1,6 +1,3 @@
-// model: Student
-// it takes reference of userName from user model
-
 const mongoose = require("mongoose");
 const { Schema, ObjectId } = mongoose;
 
