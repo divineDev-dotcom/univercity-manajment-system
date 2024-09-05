@@ -11,7 +11,7 @@ required: true
 },
 transactionId: { 
 type: ObjectId, 
-ref: "transactions", 
+ref: "transaction", 
 unique: true, 
 trim: true 
 },
