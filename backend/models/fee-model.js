@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema, ObjectId } = mongoose;
 
-const feesSchema = new Schema({
+const feeSchema = new Schema({
 studentId: { type: ObjectId, ref: "Student", required: true },
 amount: { type: Number, required: true },
 paymentStatus: { 
@@ -9,14 +9,18 @@ type: String,
 enum: ["paid", "pending", "overdue"], 
 required: true 
 },
-transactionId: { type: String, required: true, unique: true, trim: true },
+transactionId: { 
+type: ObjectId, 
+ref: "transactions", 
+unique: true, 
+trim: true 
+},
 dueDate: { type: Date, required: true },
 createdBy: { type: ObjectId, ref: "User" },
 updatedBy: { type: ObjectId, ref: "User" }
 }, 
-{ timestamps: true }
-);
+{ timestamps: true });
 
-const Fees = mongoose.model("Fees", feesSchema);
+const Fee = mongoose.model("Fee", feeSchema);
 
-module.exports = Fees;
+module.exports = Fee;

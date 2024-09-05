@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const { Schema, ObjectId } = mongoose;
 
 const studentSchema = new Schema({
-userName: { type: ObjectId, ref: 'users', required: true },
+userId: { type: ObjectId, ref: 'users', required: true },
 coursesEnrolled: [{ type: ObjectId, ref: 'courses' }],
 attendance: [{
 courseId: { type: ObjectId, ref: 'courses', required: true },
