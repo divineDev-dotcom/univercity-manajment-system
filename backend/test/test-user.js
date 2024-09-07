@@ -7,14 +7,16 @@ mongoose.connect(process.env.MONGO_URI)
         const newUser = new User({
 userName: 'jasdeep',
 password: 'test',
+email: 'kr.jasdeep@gmail.com',
 role: 'admin',
 personalDetails: {
 firstName: 'Jasdeep',
 lastName: 'Kaur',
-email: 'kr.jasdeep@gmail.com',
-phone: '+919818146445',
-Address: 'just anything',
-City: 'Gurugram',
+birthday: new Date('1990-01-01'),
+phone: '+919818012345',
+address: 'just anything',
+city: 'Gurugram',
+state: 'Haryana',
 country: 'India',
 zipcode: 112233
 },
