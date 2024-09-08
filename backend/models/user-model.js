@@ -7,7 +7,7 @@ Description:
 
 const mongoose = require("mongoose");
 const { Schema, ObjectId } = mongoose;
-const bcrypt = require("bcryptjs");
+const { hashPassword, comparePassword } = require("../helpers/password-helper.js");
 
 const userSchema = new Schema({
   userName: { type: String, required: true, unique: true, trim: true },
@@ -36,26 +36,10 @@ state: {type: String, trim: true},
 {timestamps: true}
 );
 
-/** middleware */
-// use bcrypt to hash the password before saving
-userSchema.pre("save", async function(next) {
-// if the password is not modified skip this function and call the next middleware
-if (!this.isModified("password")) next();
-// if password has been modified, hash it with the salt and then save
-try {
-const salt = await bcrypt.genSalt(10);
-this.passsword = await bcrypt.hash(this.password, salt);
-next();
-} catch(error) {
-next(error);
-}
-});
-
+// hash password before saving
+userSchema.pre("save", hashPassword);
 // compare function to compare password with stored hashed password
-userSchema.methods.comparePassword = async function(inputPassword) {
-return await bcrypt.compare(inputPassword, this.password);
-}
-/** end of middleware **/
+userSchema.methods.comparePassword = comparePassword;
 
 const User = mongoose.model("User", userSchema);
 
