@@ -6,7 +6,6 @@ Contents:
 	Returns generated JWT.
 */
 
-require("dotenv").config({ path: "../.env" });
 const jwt = require("jsonwebtoken");
 
 const generateJWT = (id, role) => {
