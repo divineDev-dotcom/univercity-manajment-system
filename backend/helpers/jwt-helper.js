@@ -1,6 +1,6 @@
 /*
 Contents:
-* generateJwt
+* generateJWT
 	Parameters: id and role of the user
 	Description: Generates JsonWebToken using id and role as payload.
 	Returns generated JWT.
@@ -9,7 +9,7 @@ Contents:
 require("dotenv").config({ path: "../.env" });
 const jwt = require("jsonwebtoken");
 
-const generateJwt = (id, role) => {
+const generateJWT = (id, role) => {
 const secretKey = process.env.SECRET_KEY;
 token = jwt.sign(
 {id: id, role: role},
@@ -19,4 +19,4 @@ secretKey,
 return token;
 };
 
-module.exports = generateJwt;
+module.exports = generateJWT;

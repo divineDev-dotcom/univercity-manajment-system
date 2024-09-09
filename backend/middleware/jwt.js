@@ -1,6 +1,6 @@
 /*
 Contents:
-* authorizeJwt
+* authenticateJWT
 	Parameters: req, res, next
 	Description: checks if the token provided in the authorization header is a valid JWT token.
 		Calls next middleware if successful.
@@ -10,7 +10,7 @@ Contents:
 require("dotenv").config( {path: "../.env"} );
 const jwt = require("jsonwebtoken");
 
-const authorizeJwt = (req, res, next) => {
+const authenticateJWT = (req, res, next) => {
 const secretKey = process.env.SECRET_KEY;
 const authHeader = req.headers.authorization; // extracting authorization header from the request
 if (authHeader && authHeader.startsWith("Bearer")) {
@@ -28,4 +28,4 @@ return res.status(401).send("Token is missing");
 }
 };
 
-module.exports = authorizeJwt;
+module.exports = authenticateJWT;
