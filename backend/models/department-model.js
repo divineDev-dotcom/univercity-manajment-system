@@ -15,13 +15,8 @@ trim: true
 },
 headOfDepartment: { 
 type: ObjectId, 
-ref: 'Faculty', 
-required: true 
+ref: 'Faculty'
 },
-coursesOffered: [{ 
-type: ObjectId, 
-ref: 'Course' 
-}],
 createdBy: { 
 type: ObjectId, 
 ref: 'User' 

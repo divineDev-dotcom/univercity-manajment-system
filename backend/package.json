@@ -9,6 +9,8 @@
   "license": "MIT",
   "description": "",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
     "cripto": "^1.1.4",
     "express": "^4.19.2",
     "fs": "^0.0.1-security",
