@@ -20,3 +20,4 @@ process.on("SIGTERM", gracefulShutdown);
 
 // connect to database and start the server
 startServer(app); 
+//module.exports = app; // for testing
