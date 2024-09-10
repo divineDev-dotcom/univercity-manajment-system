@@ -9,10 +9,14 @@ Routes and their access:
 */
 
 const express = require("express");
+const authenticateJWT = require("../middleware/jwt.js");
+const {registerUser} = require("../controllers/user-controller");
+
 const userRouter = express.Router();
 
-userRouter.get("/login", async (req, res) => {
+userRouter.get("/login", (req, res) => {
 res.send("Testing user login route.");
 });
+userRouter.post("/register", authenticateJWT, registerUser);
 
 module.exports = userRouter;
