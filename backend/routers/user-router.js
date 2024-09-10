@@ -1,7 +1,7 @@
 /*
 Routes and their access:
 /login - all users
-/create - admin only
+/register - admin only
 /get-profile - any by admin, self by others
 /update - any by admin, self by others
 /delete - admin only
