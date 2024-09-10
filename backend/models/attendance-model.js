@@ -7,11 +7,6 @@ type: ObjectId,
 ref: 'User', 
 required: true 
 },
-userType: { 
-type: String, 
-enum: ['student', 'faculty'], 
-required: true 
-},
 courseId: { 
 type: ObjectId, 
 ref: 'Course', 
