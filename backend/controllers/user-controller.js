@@ -1,4 +1,33 @@
 const User = require("../models/user-model");
+const generateToken = require("../helpers/jwt-helper");
+
+const login = async (req, res) => {
+const {userIdentity, password} = req.body;
+try {
+// check if user exists in the database
+const user = await User.findOne({
+$or: [{userName: userIdentity}, {email: userIdentity}]
+});
+if (!user) {
+return res.status(400).json({error: true, msg: "Invalid login credentials"});
+}
+// check if the password matches
+const isPasswordCorrect = await user.comparePassword(password);
+if (!isPasswordCorrect) {
+return res.status(400).json({error: true, msg: "Invalid login credentials"});
+}
+const token = generateJWT(user._id, user.role);
+return res.status(200).json({
+error: false,
+data: {
+token: token,
+user: {id: user._id, role: user.role, email: user.email, personalDetails: user.personalDetails}
+}
+});
+} catch(error) {
+return res.status(500).json({error: true, msg: `Login failed: ${error}`});
+}
+};
 
 const registerUser = async (req, res) => {
 const {userName, email, password, role, personalDetails} = req.body;
@@ -25,4 +54,4 @@ return res.status(500).json({error: true, msg: `Error saving user: ${error.messa
 }
 };
 
-module.exports = {registerUser};
+module.exports = {login, registerUser};
