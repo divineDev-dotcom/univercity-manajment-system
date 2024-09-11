@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const {startServer, gracefulShutdown} = require("./helpers/server-helper");
 const userRouter = require("./routers/user-router");
+const departmentRouter = require(./routers/department-router);
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(express.urlencoded({extended: true}));
 
 // routes
 app.use("/user", userRouter);
+app.use("/department", departmentRouter);
 
 // handle termination signals
 process.on("SIGINT", gracefulShutdown);
