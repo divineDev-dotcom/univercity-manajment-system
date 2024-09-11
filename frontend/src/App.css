@@ -1,19 +1,27 @@
-.App {
-  text-align: center;
-  color: blue; /* Added blue font color */
+ .App { 
+text-align: center;
+color: #0044cc; /* Darker blue for better readability */
+font-family: 'Arial', sans-serif; /* Cleaner font */
+padding: 20px; /* Adds spacing around the content */
+background-color: #f0f4f8; /* Light background for contrast */
+}
+.App-logo {
+height: 40vmin;
+pointer-events: none;
+transition: transform 0.5s ease-in-out; /* Smooth scaling effect */
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.App-logo:hover {
+transform: scale(1.1); /* Slight zoom effect on hover */
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
+.App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
 }
 
+/* Header styles for the app */
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -21,19 +29,42 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-size: calc(12px + 2vmin); /* Slightly increased font size */
   color: white;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
 
+/* Links within the app */
 .App-link {
   color: #61dafb;
+  text-decoration: none;
+  font-weight: bold;
 }
 
+.App-link:hover {
+  color: #21a1f1; /* Darker shade of blue on hover */
+  text-decoration: underline; /* Underline on hover */
+}
+
+/* Logo spinning animation */
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+/* Responsive design adjustments */
+@media (max-width: 768px) {
+  .App-header {
+    font-size: calc(10px + 3vmin); /* Increase font size on smaller screens */
+    padding: 15px;
+  }
+
+  .App-logo {
+    height: 30vmin; /* Adjust logo size for smaller screens */
   }
 }
