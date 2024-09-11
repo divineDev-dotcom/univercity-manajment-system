@@ -1,5 +1,5 @@
 const User = require("../models/user-model");
-const generateToken = require("../helpers/jwt-helper");
+const generateJWT = require("../helpers/jwt-helper");
 
 const login = async (req, res) => {
 const {userIdentity, password} = req.body;
@@ -25,6 +25,7 @@ user: {id: user._id, role: user.role, email: user.email, personalDetails: user.p
 }
 });
 } catch(error) {
+console.error(`An error occured: ${error.message}`);
 return res.status(500).json({error: true, msg: `Login failed: ${error}`});
 }
 };
