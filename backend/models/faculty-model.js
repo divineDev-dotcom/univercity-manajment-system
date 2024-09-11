@@ -3,18 +3,21 @@ const { Schema, ObjectId } = mongoose;
 
 const facultySchema = new Schema({
   userId: {
-    type: ObjectId,
-    ref: "User",
+//    type: ObjectId,
+//    ref: "User",
+type: String,
     required: true
   },
   department: {
-    type: ObjectId,
-    ref: "Department",
+//    type: ObjectId,
+//    ref: "Department",
+type: String,
     required: true
   },
   coursesAssigned: [{
-    type: ObjectId,
-    ref: "Course"
+   // type: ObjectId,
+//    ref: "Course"
+type: String
   }],
   dateOfJoining: {
     type: Date
@@ -41,7 +44,8 @@ const facultySchema = new Schema({
         type: Date
       }
     }]
-  },
+  }
+/*,
   leaveBalance: {
     type: Number
   },
@@ -60,6 +64,7 @@ const facultySchema = new Schema({
       default: 'Pending'
     }
   }]
+*/
 }, 
 { timestamps: true });
 

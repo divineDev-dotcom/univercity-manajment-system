@@ -17,6 +17,6 @@ const userRouter = express.Router();
 userRouter.get("/login", (req, res) => {
 res.send("Testing user login route.");
 });
-userRouter.post("/register", authenticateJWT, registerUser);
+userRouter.post("/register",  authenticateJWT, registerUser);
 
 module.exports = userRouter;
