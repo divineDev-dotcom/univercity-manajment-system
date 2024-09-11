@@ -1,10 +1,9 @@
  .App { 
 text-align: center;
-color: #0044cc; /* Darker blue for better readability */
-font-family: 'Arial', sans-serif; /* Cleaner font */
+color:  /* Darker blue 
+font-family: 'Arial', sans-serif; 
 padding: 20px; /* Adds spacing around the content */
-background-color: #f0f4f8; /* Light background for contrast */
-}
+ }
 .App-logo {
 height: 40vmin;
 pointer-events: none;
