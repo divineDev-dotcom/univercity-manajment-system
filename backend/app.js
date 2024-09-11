@@ -3,7 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const {startServer, gracefulShutdown} = require("./helpers/server-helper");
 const userRouter = require("./routers/user-router");
-const departmentRouter = require(./routers/department-router);
+const departmentRouter = require("./routers/department-router");
 
 const app = express();
 
