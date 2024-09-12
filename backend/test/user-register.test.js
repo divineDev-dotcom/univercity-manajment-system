@@ -2,9 +2,7 @@
 This test uses jest and supertest. 
 1. Use the following command to install:
 npm install --save-dev jest supertest
-2. Add / uncomment the line module.exports = app;
-3. Comment the line startServer();
-4. Run the test script using the command:
+2. Run the test script using the command:
 npx jest test/user-register.test.js
 */
 
@@ -12,6 +10,7 @@ require("dotenv").config(); // adjust the path according to the .env file with t
 const request = require('supertest'); // For making HTTP requests
 const app = require('../app');        // Import your Express app
 const mongoose = require('mongoose');
+const User = require("../models/user-model");
 
 describe('POST /user/register', () => {
   beforeAll(async () => {
@@ -19,7 +18,7 @@ describe('POST /user/register', () => {
 //    await mongoose.connect("mongodb://127.0.0.1:27017/ums");
 await mongoose.connect(process.env.MONGO_URI);
     // Optionally, clear any existing data before tests
-    await mongoose.connection.collections.users.drop();
+    await User.deleteOne({ userName: 'testuser' }); // Delete specific test user if exists    await User.deleteOne({ userName: 'testuser' }); // Delete specific test user if exists
   });
 
   afterAll(async () => {
@@ -30,7 +29,7 @@ await mongoose.connect(process.env.MONGO_URI);
   it('should register a new user successfully', async () => {
     const response = await request(app)  // No need to specify port here
       .post('/user/register')
-      .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMTEyMjMzNDQ1NTY2Nzc4ODk5MDAiLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3MjU5ODgwODJ9.HGOFysDOrPCwEuk9nfk9g8RKW73njWuj5qk4s45kmxw')  // Include valid JWT
+      .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMTEyMjMzNDQ1NTY2Nzc4ODk5MDAiLCJyb2xlIjoiYWRtaW4ifQ.2_6WwlWGCQu-viwSVNcWktqsp5Kbg-HLqZflGiR0Mb4')  // Include valid JWT
       .send({
         userName: 'testuser',
         email: 'testuser@example.com',
@@ -60,7 +59,7 @@ await mongoose.connect(process.env.MONGO_URI);
     // First registration
     await request(app)
       .post('/user/register')
-      .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMTEyMjMzNDQ1NTY2Nzc4ODk5MDAiLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3MjU5ODgwODJ9.HGOFysDOrPCwEuk9nfk9g8RKW73njWuj5qk4s45kmxw')  // Include valid JWT
+      .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMTEyMjMzNDQ1NTY2Nzc4ODk5MDAiLCJyb2xlIjoiYWRtaW4ifQ.2_6WwlWGCQu-viwSVNcWktqsp5Kbg-HLqZflGiR0Mb4')  // Include valid JWT
       .send({
         userName: 'testuser',
         email: 'testuser@example.com',
@@ -83,7 +82,7 @@ await mongoose.connect(process.env.MONGO_URI);
     // Second registration with the same username and email
     const duplicateResponse = await request(app)
       .post('/user/register')
-      .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMTEyMjMzNDQ1NTY2Nzc4ODk5MDAiLCJyb2xlIjoiYWRtaW4iLCJleHAiOjE3MjU5ODgwODJ9.HGOFysDOrPCwEuk9nfk9g8RKW73njWuj5qk4s45kmxw')  // Include valid JWT
+      .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMTEyMjMzNDQ1NTY2Nzc4ODk5MDAiLCJyb2xlIjoiYWRtaW4ifQ.2_6WwlWGCQu-viwSVNcWktqsp5Kbg-HLqZflGiR0Mb4')  // Include valid JWT
       .send({
         userName: 'testuser',   // Duplicate username
         email: 'testuser@example.com', // Duplicate email
