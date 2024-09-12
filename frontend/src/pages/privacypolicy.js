@@ -1,6 +1,6 @@
 import React from 'react';
 
-const PrivacyPolicy = () => {
+function PrivacyPolicy () {
 return (
 <div>
 <h2>Privacy Policy</h2>
@@ -37,7 +37,7 @@ We may update this Privacy Policy from time to time. We encourage you to review 
 <p>
 If you have any questions or concerns about this Privacy Policy, please contact us at:
 <br />
-Email: <a href="mailto:privacy@[university].edu">privacy@[university].edu</a><br />
+Email: <a href="mailto:privac`q	y@[university].edu">privacy@[university].edu</a><br />
 Address: [University Address]
 </p>
 </div>
