@@ -6,7 +6,7 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsAndConditions from './pages/TermsAndConditions'; // Corrected the import path
 import ShootingStar from './ShootingStar.jpg';
 import CourseSelection from './CourseSelection.js';
-import CoppyWrite from './pages/CoppyWrite'; 
+import CopyWrite from './pages/CopyWrite'; 
 
 function App() {
 return (
@@ -19,7 +19,6 @@ return (
 <ul>
 <li><Link to="/">Home</Link></li>
 <li><Link to="/CourseSelection">Course Selection</Link></li>
-<li><Link to="/CoppyWrite">CoppyWrite</Link></li>
 
 
 </ul>
@@ -33,13 +32,14 @@ return (
 <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
 <Route path="/termsAndConditions" element={<TermsAndConditions />} />
 <Route path="/CourseSelection" element={<CourseSelection />} />
-<Route path="/CoppyWrite" element={<CoppyWrite />} />
+<Route path="/CopyWrite" element={<CopyWrite />} />
 </Routes>
 <footer>
 <nav>
 <ul>
 <li><Link to="/privacyPolicy">Privacy Policy</Link></li>
 <li><Link to="/termsAndConditions">Terms and Conditions</Link></li> 
+<li><Link to="/CopyWrite">CoppyWrite</Link></li>
 </ul>
 </nav>
 <p>Copyright 2024</p> 
