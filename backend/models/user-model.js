@@ -7,7 +7,7 @@ Description:
 
 const mongoose = require("mongoose");
 const { Schema, ObjectId } = mongoose;
-const { hashPassword, comparePassword } = require("../helpers/password-helper.js");
+const { hashPassword, hashPasswordForUpdate, comparePassword } = require("../helpers/password-helper.js");
 
 const userSchema = new Schema({
   userName: { type: String, required: true, unique: true, trim: true },
@@ -36,8 +36,10 @@ state: {type: String, trim: true},
 {timestamps: true}
 );
 
-// hash password before saving
+// hash password before saving or updating
 userSchema.pre("save", hashPassword);
+userSchema.pre("findOneAndUpdate", hashPasswordForUpdate);
+userSchema.pre("findByIdAndUpdate", hashPasswordForUpdate);
 // compare function to compare password with stored hashed password
 userSchema.methods.comparePassword = comparePassword;
 

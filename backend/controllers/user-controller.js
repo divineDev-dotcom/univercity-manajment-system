@@ -91,4 +91,32 @@ return res.status(500).json({ error: true, msg: `Error fetching profile: ${error
 }
 };
 
-module.exports = {login, registerUser, getProfileById};
+const updateUserProfile = async (req, res) => {
+console.log("in update user profile");
+const {_id} = req.params;
+const loggedInUserId = req.user._id;
+const {personalDetails} = req.body;
+console.log(`personalDetails received as ${personalDetails}`);
+if (!personalDetails) {
+return res.status(400).json({error: true, msg: "Personal details are required for updating user profile"});
+}
+console.log("trying to find the user in db");
+try {
+const updatedUser = await User.findByIdAndUpdate(
+_id,
+{ $set: {personalDetails, updatedBy: loggedInUserId} },
+{ new: true, runValidators: true, select: "-password" }
+);
+console.log(`updatedUser is ${updatedUser}`);
+if (!updatedUser) {
+return res.status(404).json({error: true, msg: "User not found"});
+}
+console.log("returning success....");
+return res.status(200).json({error: false, msg: "User profile updated", data: updatedUser});
+} catch(error) {
+console.error(`An error occured: ${error.message}`);
+return res.status(500).json({error: true, msg: `Error updating the user: ${error.message}`});
+}
+};
+
+module.exports = {login, registerUser, getProfileById, updateUserProfile} ;
