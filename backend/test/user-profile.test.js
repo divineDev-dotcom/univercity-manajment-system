@@ -76,12 +76,12 @@ describe('GET /user/profile', () => {
 
   it('should allow admin to access any user profile', async () => {
     const response = await request(app)
-      .get(`/user/profile?profileId=${userId}`)
+      .get(`/user/profile?_id=${userId}`)
       .set('Authorization', `Bearer ${adminToken}`);
 
     expect(response.status).toBe(200);
     expect(response.body.error).toBe(false);
-    expect(response.body.data.userProfile).toMatchObject({
+    expect(response.body.data).toMatchObject({
       userName: 'regularUser',
       email: 'regular@example.com',
       role: 'student',
@@ -94,12 +94,12 @@ describe('GET /user/profile', () => {
 
   it('should allow a user to access their own profile', async () => {
     const response = await request(app)
-      .get(`/user/profile?profileId=${userId}`)
+      .get(`/user/profile?_id=${userId}`)
       .set('Authorization', `Bearer ${userToken}`);
 
     expect(response.status).toBe(200);
     expect(response.body.error).toBe(false);
-    expect(response.body.data.userProfile).toMatchObject({
+    expect(response.body.data).toMatchObject({
       userName: 'regularUser',
       email: 'regular@example.com',
       role: 'student',
@@ -112,7 +112,7 @@ describe('GET /user/profile', () => {
 
   it('should return an error if user tries to access another user’s profile', async () => {
     const response = await request(app)
-      .get(`/user/profile?profileId=${adminId}`)
+      .get(`/user/profile?_id=${adminId}`)
       .set('Authorization', `Bearer ${userToken}`);
 
     expect(response.status).toBe(403);
@@ -127,6 +127,6 @@ describe('GET /user/profile', () => {
 
     expect(response.status).toBe(400);
     expect(response.body.error).toBe(true);
-    expect(response.body.msg).toBe('Invalid profileId');
+    expect(response.body.msg).toBe('Received invalid ID for requested resource');
   });
 });

@@ -57,34 +57,17 @@ return res.status(500).json({error: true, msg: `Error saving user: ${error.messa
 };
 
 const getProfileById = async (req, res) => {
-try {
-const { profileId } = req.query;  // extracting the profileId from query parameters
+const { _id } = req.query;  // extracting the profileId from query parameters
 const loggedInUserId = req.user._id;  // extracting the logged-in user's id from JWT token
-const loggedInUserRole = req.user.role;  // extracting the logged-in user's role from JWT token
-
-// Check if profileId is valid
-if (!mongoose.Types.ObjectId.isValid(profileId)) {
-return res.status(400).json({ error: true, msg: "Invalid profileId" });
-}
-
-// Fetch the user profile by profileId
-const userProfile = await User.findById(profileId).select("-password");
-
+try {
+const userProfile = await User.findById(_id).select("-password");
 if (!userProfile) {
 return res.status(404).json({ error: true, msg: "Profile not found" });
     }
-
-// Admins can access any profile, but others can only access their own profile
-if (loggedInUserRole === 'admin' || loggedInUserId.toString() === profileId) {
 return res.status(200).json({
 error: false,
-data: {
-userProfile: userProfile
-}
+data: userProfile
 });
-} else {
-return res.status(403).json({error: true, msg: "Forbidden: you do not have access to this resource"});
-}
 } catch (error) {
 console.error(`An error occurred: ${error.message}`);
 return res.status(500).json({ error: true, msg: `Error fetching profile: ${error.message}` });
@@ -92,26 +75,21 @@ return res.status(500).json({ error: true, msg: `Error fetching profile: ${error
 };
 
 const updateUserProfile = async (req, res) => {
-console.log("in update user profile");
 const {_id} = req.params;
 const loggedInUserId = req.user._id;
 const {personalDetails} = req.body;
-console.log(`personalDetails received as ${personalDetails}`);
 if (!personalDetails) {
 return res.status(400).json({error: true, msg: "Personal details are required for updating user profile"});
 }
-console.log("trying to find the user in db");
 try {
 const updatedUser = await User.findByIdAndUpdate(
 _id,
 { $set: {personalDetails, updatedBy: loggedInUserId} },
 { new: true, runValidators: true, select: "-password" }
 );
-console.log(`updatedUser is ${updatedUser}`);
 if (!updatedUser) {
 return res.status(404).json({error: true, msg: "User not found"});
 }
-console.log("returning success....");
 return res.status(200).json({error: false, msg: "User profile updated", data: updatedUser});
 } catch(error) {
 console.error(`An error occured: ${error.message}`);

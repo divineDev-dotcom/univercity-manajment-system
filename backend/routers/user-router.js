@@ -21,7 +21,7 @@ userRouter.post("/login", login);
 
 // protected routes
 userRouter.post("/register",  authenticateJWT, registerUser);
-userRouter.get("/profile", authenticateJWT, getProfileById);
+userRouter.get("/profile", authenticateJWT, isValidId, checkAdminOrSelf, getProfileById);
 userRouter.put("/update-profile/:_id", authenticateJWT, isValidId, checkAdminOrSelf, updateUserProfile);
 
 userRouter.get("/test", (req, res) => {
