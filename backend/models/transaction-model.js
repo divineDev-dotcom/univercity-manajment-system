@@ -37,8 +37,8 @@ required: true,
 trim: true
 },
 createdBy: {type: ObjectId, required: true, ref: "User"}, 
-updatedBy: {type: ObjectId, required: true, ref: "User"}, 
-updateReason: {type: String, required: true, trim: true},
+updatedBy: {type: ObjectId, ref: "User"}, 
+updateReason: {type: String, trim: true},
 }, 
 {timestamps: true}
 );

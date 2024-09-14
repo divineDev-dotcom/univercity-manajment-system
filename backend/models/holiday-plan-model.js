@@ -8,11 +8,11 @@ const HolidayPlanSchema = new Schema({
 year: {type: Number, required: true, unique: true},
 holidays: [{
 date: {type: Date, required: true},
-description: {type: String, required: true},
+description: {type: String, required: true, trim: true},
 type: {
 type: String,
 enum: ["public", "restricted", "weekend"],
-required: true
+required: true, trim: true
 }
 }],
 leaveQuota: {

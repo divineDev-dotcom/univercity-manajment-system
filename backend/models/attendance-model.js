@@ -9,7 +9,8 @@ subjectId: { type: ObjectId, ref: "subject" },
 status: { 
 type: String, 
 enum: ["present", "absent", "leave"], 
-required: true 
+required: true, 
+trim: true
 },
 leaveId: { type: ObjectId, ref: "Leave" },
 createdBy: { type: ObjectId, ref: "User", required: true },

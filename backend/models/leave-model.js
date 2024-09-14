@@ -9,15 +9,14 @@ userId: {type: ObjectId, ref: "User", required: true},
 type: {
 type: String,
 enum: ["sick", "casual", "earned"],
-required: true
+required: true, trim: true
 },
 startDate: {type: Date, required: true},
 endDate: {type: Date, required: true},
 status: {
 type: String,
 enum: ["approved", "pending", "rejected"],
-default: "pending",
-required: true
+default: "pending", required: true, trim: true
 },
 createdBy: {type: ObjectId, ref: "User"},
 updatedBy: {type: ObjectId, ref: "User"}
