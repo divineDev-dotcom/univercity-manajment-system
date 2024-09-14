@@ -1,11 +1,11 @@
-function Input({
+const Input = ({
   id,
   label,
   type = "text",
   value,
   onChange,
   required = true
-}) {
+}) => {
   return (
     <div>
       <label htmlFor={id}>{label}</label>
@@ -18,6 +18,6 @@ function Input({
       />
     </div>
   );
-}
+};
 
 export default Input;
