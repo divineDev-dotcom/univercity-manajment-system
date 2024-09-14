@@ -8,9 +8,10 @@ courseId: { type: ObjectId, ref: "Course", },
 subjectId: { type: ObjectId, ref: "subject" },
 status: { 
 type: String, 
-enum: ["present", "absent", "sickLeave", "casualLeave", "earnedLeave"], 
+enum: ["present", "absent", "leave"], 
 required: true 
 },
+leaveId: { type: ObjectId, ref: "Leave" },
 createdBy: { type: ObjectId, ref: "User", required: true },
 updatedBy: { type: ObjectId, ref: "User" }
 }, 
