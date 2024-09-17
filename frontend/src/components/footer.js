@@ -12,7 +12,9 @@ return(
 <Link to="/termscondition"> Terms and Condition </Link>
 </li>
 </ul>
-&copy; //line to be edited
+<p> 
+copy write 2024 @ ShootingStar univercity 
+</p>
 </footer>
 </div>
 );
