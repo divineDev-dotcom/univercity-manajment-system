@@ -10,7 +10,7 @@ require("dotenv").config(); // Adjust the path according to the .env file if nec
 const request = require("supertest");
 const app = require("../app"); // Import your Express app
 const mongoose = require("mongoose");
-const User = require("../models/user-model");
+const {User} = require("../models/user-model");
 
 describe('POST /user/login', () => {
   beforeAll(async () => {
@@ -44,12 +44,12 @@ describe('POST /user/login', () => {
     };
 
     await request(app)
-      .post('/user/register')
+      .post('/api/user/register')
       .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMTEyMjMzNDQ1NTY2Nzc4ODk5MDAiLCJyb2xlIjoiYWRtaW4ifQ.2_6WwlWGCQu-viwSVNcWktqsp5Kbg-HLqZflGiR0Mb4') // Replace with actual JWT
       .send(user);
 
     const response = await request(app)
-      .post('/user/login')
+      .post('/api/user/login')
       .send({
         userIdentity: 'testuser', // You can use either userName or email
         password: 'password123',
@@ -67,7 +67,7 @@ describe('POST /user/login', () => {
 
   it('should return an error with invalid login credentials', async () => {
     const response = await request(app)
-      .post('/user/login')
+      .post('/api/user/login')
       .send({
         userIdentity: 'invaliduser',
         password: 'wrongpassword',
