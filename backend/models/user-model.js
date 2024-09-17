@@ -8,6 +8,9 @@ Description:
 const mongoose = require("mongoose");
 const { Schema, ObjectId } = mongoose;
 const { hashPassword, hashPasswordForUpdate, comparePassword } = require("../helpers/password-helper.js");
+const studentSchema = require("./users/student-schema");
+const applicantSchema = require("./users/faculty-schema");
+const facultySchema = require("./users/faculty-schema");
 
 const userSchema = new Schema({
   userName: { type: String, required: true, unique: true, trim: true },
@@ -33,7 +36,8 @@ state: {type: String, trim: true},
   createdBy: { type: ObjectId, ref: "User" },
   updatedBy: { type: ObjectId, ref: "User" }
 }, 
-{timestamps: true}
+{timestamps: true,
+discriminator: "role" }
 );
 
 // hash password before saving or updating
@@ -43,6 +47,13 @@ userSchema.pre("findByIdAndUpdate", hashPasswordForUpdate);
 // compare function to compare password with stored hashed password
 userSchema.methods.comparePassword = comparePassword;
 
+// base model 
 const User = mongoose.model("User", userSchema);
 
-module.exports = User;
+// discriminators
+const Admin = User.discriminator("admin", new Schema({}, {_id: false}));
+const Student = User.discriminator("student", studentSchema);
+const Faculty = User.discriminator("faculty", facultySchema);
+const Applicant = User.discriminator("applicant", applicantSchema);
+
+module.exports = {User, Admin, Student, Faculty, Applicant};
