@@ -7,8 +7,7 @@ const Collapsible = ({ title, children }) => {
     setIsOpen((prevState) => !prevState);
   };
 
-  // Generate a unique ID using useId hook (React 18+)
-  const collapsibleId = useId();
+   const collapsibleId = useId();
 
   return (
     <div>
