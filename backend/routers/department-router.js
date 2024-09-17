@@ -9,6 +9,6 @@ departmentRouter.get("/getDepartments", getDepartments);
 // get one department by ID
 departmentRouter.get("/getDepartmentByID", getDepartmentById);
 // Delete a department by ID
-departmentRouter.delete("/deleteDepartment:id", deleteDepartment);
+departmentRouter.delete("/deleteDepartment/:id", deleteDepartment);
 
 module.exports = departmentRouter;
