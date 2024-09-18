@@ -30,8 +30,8 @@ const createDepartment = async (req, res) => {
             departmentCode,
             departmentName,
             headOfDepartment,
-            createdBy: req.user._id,
-            updatedBy: req.user._id
+             createdBy: req.user._id,
+             updatedBy: req.user._id
         });
 
         // Save to database
