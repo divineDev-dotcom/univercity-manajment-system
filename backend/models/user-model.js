@@ -15,31 +15,30 @@ const studentSchema = require("./users/student-schema");
 const facultySchema = require("./users/faculty-schema");
 
 const userSchema = new Schema({
-  userName: { type: String, required: true, unique: true, trim: true },
-  password: { type: String, required: true },
-    email: { type: String, required: true, unique: true, trim: true },
-  role: {
-    type: String,
-    enum: ["super-admin", "admin", "faculty", "student" ],
-    required: true
-  },
-  personalDetails: {
-    firstName: { type: String, required: true, trim: true },
-    lastName: { type: String, required: true, trim: true },
+userName: { type: String, required: true, unique: true, trim: true },
+password: { type: String, required: true },
+email: { type: String, required: true, unique: true, trim: true },
+role: {
+type: String,
+enum: ["super-admin", "admin", "faculty", "student" ],
+required: true, trim: true
+},
+personalDetails: {
+firstName: { type: String, required: true, trim: true },
+lastName: { type: String, required: true, trim: true },
 birthday: {type: Date, required: true},
-    phone: { type: String, trim: true  },
-    address: { type: String, trim: true },
-    city: { type: String, trim: true  },
-state: {type: String, trim: true},
-    country: { type: String, trim: true },
-    zipCode: { type: Number }
+phone: { type: String, required: true, trim: true  },
+address: { type: String, required: true, trim: true },
+city: { type: String, required: true, trim: true  },
+state: {type: String, required: true, trim: true},
+country: { type: String, required: true, trim: true },
+zipCode: { type: Number, required: true }
   },
-  profilePicture: { type: String, trim: true },
-  createdBy: { type: ObjectId, ref: "User" },
-  updatedBy: { type: ObjectId, ref: "User" }
+profilePicture: { type: String, trim: true },
+createdBy: { type: ObjectId, ref: "User", required: true },
+updatedBy: { type: ObjectId, ref: "User" }
 }, 
-{timestamps: true,
-discriminator: "role" }
+{ timestamps: true, discriminatorKey: "role" }
 );
 
 // hash password before saving or updating
