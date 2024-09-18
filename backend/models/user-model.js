@@ -1,15 +1,17 @@
 /*
-Model name: User
-Description: 
-	Contains details of a user including personal details, profile picture, and role like, student, faculty, admin, etc.
-	Also, contains the information about when and by whom the document was created / updated.
+User model is the base model that will contain the following personas:
+- Super Admin, having all access
+- Admin, having access to administrative tasks
+- Student, containing information about the courses that the student has applied, completed, or left.
+- Faculty, maintaining records of the faculty, subjects being taught, salary, and other  details.
+User schema is the base schema and other schemas are discriminators containing their specific information.
+The "role" field is used as the discriminator key.
 */
 
 const mongoose = require("mongoose");
 const { Schema, ObjectId } = mongoose;
 const { hashPassword, hashPasswordForUpdate, comparePassword } = require("../helpers/password-helper.js");
 const studentSchema = require("./users/student-schema");
-const applicantSchema = require("./users/faculty-schema");
 const facultySchema = require("./users/faculty-schema");
 
 const userSchema = new Schema({
@@ -18,7 +20,7 @@ const userSchema = new Schema({
     email: { type: String, required: true, unique: true, trim: true },
   role: {
     type: String,
-    enum: ["admin", "faculty", "student", "applicant", "alumni"],
+    enum: ["super-admin", "admin", "faculty", "student" ],
     required: true
   },
   personalDetails: {
@@ -51,9 +53,9 @@ userSchema.methods.comparePassword = comparePassword;
 const User = mongoose.model("User", userSchema);
 
 // discriminators
+const SuperAdmin = User.discriminator("super-admin", new Schema({}, {_id: false}));
 const Admin = User.discriminator("admin", new Schema({}, {_id: false}));
 const Student = User.discriminator("student", studentSchema);
 const Faculty = User.discriminator("faculty", facultySchema);
-const Applicant = User.discriminator("applicant", applicantSchema);
 
-module.exports = {User, Admin, Student, Faculty, Applicant};
+module.exports = {User, SuperAdmin, Admin, Student, Faculty};

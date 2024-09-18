@@ -4,7 +4,8 @@ dateOfJoining: date of hiring
 isCurrentlyWorking 
 dateOfLeaving - if retired or left job
 salary 
-Please see if anything is required
+a field to point to studentId in case faculty had passed out from the same university
+Please see if anything else is required
 please remember not to create model here
 */
 const mongoose = require("mongoose");
