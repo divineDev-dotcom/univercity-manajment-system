@@ -53,14 +53,24 @@ const createDepartment = async (req, res) => {
 
 
 // Get all departments
+
 const getDepartments = async (req, res) => {
-try {
-const departments = await Department.find();
-return res.status(200).json({ error: false, data: departments });
-} catch (error) {
-return res.status(500).json({ error: true, msg: `Error fetching departments: ${error.message}` });
-}
+  try {
+    const departments = await Department.find();
+
+    // Check if there are no departments
+    if (departments.length === 0) {
+      return res.status(404).json({ message: 'No departments found' });
+    }
+
+    // Return the list of departments as JSON
+    res.status(200).json(departments);
+  } catch (error) {
+    console.error("Error fetching departments:", error);
+    res.status(500).json({ message: 'Server error, could not fetch departments' });
+  }
 };
+
 
 // Get department by ID
 const getDepartmentById = async (req, res) => {
