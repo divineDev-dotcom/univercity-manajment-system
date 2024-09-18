@@ -14,8 +14,7 @@ required: true,
 trim: true 
 },
 headOfDepartment: { 
-type: ObjectId, 
-ref: 'Faculty'
+type: String, 
 },
 createdBy: { 
 type: ObjectId, 

@@ -12,6 +12,6 @@ app.use(express.urlencoded({extended: true}));
 
 // routes
 app.use("/api/user", userRouter);
-app.use("/department", departmentRouter);
+app.use("/api/department", departmentRouter);
 
 module.exports = app; 
