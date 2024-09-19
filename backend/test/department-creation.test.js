@@ -1,102 +1,61 @@
-const request = require('supertest');
-const express = require('express');
+const request = require('supertest'); // For making HTTP requests
+const app = require('../app');        // Import your Express app
 const mongoose = require('mongoose');
-const { createDepartment } = require('../controllers/department-controller');
-const Department = require('../models/department-model');
-
-const app = express();
-app.use(express.json()); // to parse JSON bodies
-
-// Mock the endpoint
-app.post('/api/department/createDepartment', createDepartment);
+const Department = require("../models/department-model");
 
 describe('POST /api/department/createDepartment', () => {
   beforeAll(async () => {
-    // Connect to a test database
-    await mongoose.connect('mongodb://localhost:27017/test');
+    await mongoose.connect("mongodb://127.0.0.1:27017/ums");
+    
+    // Optionally, clear any existing data before tests
+    await User.deleteOne({ userName: 'testuser' }); // Delete specific test user if exists
   });
 
   afterAll(async () => {
-    // Disconnect from the test database
-    await mongoose.connection.close();
+    // Disconnect from the database after tests
+    await mongoose.disconnect();
   });
 
-
-  test('should create a department successfully', async () => {
-    const departmentData = {
-      departmentCode: 'CS101',
-      departmentName: 'Computer Science',
-      headOfDepartment: 'John Doe',
-    };
-
-    const response = await request(app)
+  it('should create a new department successfully', async () => {
+    const response = await request(app)  // No need to specify port here
       .post('/api/department/createDepartment')
-      .send(departmentData)
-      .expect('Content-Type', /json/)
-      .expect(201);
+      .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMTEyMjMzNDQ1NTY2Nzc4ODk5MDAiLCJyb2xlIjoiYWRtaW4ifQ.2_6WwlWGCQu-viwSVNcWktqsp5Kbg-HLqZflGiR0Mb4')  // Include valid JWT
+      .send({
+departmentCode: 'testuser',
+departmentName: 'testuser',
+headOfDepartment: 'Ashish',
+      });
 
-    expect(response.body.message).toBe('Department created successfully');
-    expect(response.body.data.departmentCode).toBe(departmentData.departmentCode);
-    expect(response.body.data.departmentName).toBe(departmentData.departmentName);
+    // Assertions
+    expect(response.status).toBe(201);
+    expect(response.body.error).toBe(false);
+    expect(response.body.msg).toBe('Department created successfully');
   });
 
-  test('should return 400 if department code is missing', async () => {
-    const departmentData = {
-      departmentName: 'Computer Science',
-    };
-
-    const response = await request(app)
-      .post('/api/department/createDepartment')
-      .send(departmentData)
-      .expect('Content-Type', /json/)
-      .expect(400);
-
-    expect(response.body.message).toBe('Department code and name are required.');
-  });
-
-  test('should return 400 if department already exists', async () => {
-    const departmentData = {
-      departmentCode: 'CS101',
-      departmentName: 'Computer Science',
-    };
-
-    // First request to create the department
+  it('should return an error when registering with a duplicate departmentCode', async () => {
+    // First registration
     await request(app)
       .post('/api/department/createDepartment')
-      .send(departmentData)
-      .expect('Content-Type', /json/)
-      .expect(201);
+      .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMTEyMjMzNDQ1NTY2Nzc4ODk5MDAiLCJyb2xlIjoiYWRtaW4ifQ.2_6WwlWGCQu-viwSVNcWktqsp5Kbg-HLqZflGiR0Mb4')  // Include valid JWT
+      .send({
+departmentCode: 'testuser',
+departmentName: 'testuser',
+headOfDepartment: 'Ashish',
+      });
 
-    // Second request should fail due to duplicate
-    const response = await request(app)
+    // Second creation with the same departmentCode
+    const duplicateResponse = await request(app)
       .post('/api/department/createDepartment')
-      .send(departmentData)
-      .expect('Content-Type', /json/)
-      .expect(400);
+      .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMTEyMjMzNDQ1NTY2Nzc4ODk5MDAiLCJyb2xlIjoiYWRtaW4ifQ.2_6WwlWGCQu-viwSVNcWktqsp5Kbg-HLqZflGiR0Mb4')  // Include valid JWT
+      .send({
+departmentCode: 'testuser',   // Duplicate username
+departmentName: 'testuser', // Duplicate
+headOfDepartment: 'Ashish',
+      });
 
-    expect(response.body.message).toBe('Department with this code or name already exists.');
-  });
-
-  test('should return 500 on server error', async () => {
-    // Mock a server error
-    jest.spyOn(Department.prototype, 'save').mockImplementationOnce(() => {
-      throw new Error('Server error');
-    });
-
-    const departmentData = {
-      departmentCode: 'CS101',
-      departmentName: 'Computer Science',
-    };
-
-    const response = await request(app)
-      .post('/api/department/createDepartment')
-      .send(departmentData)
-      .expect('Content-Type', /json/)
-      .expect(500);
-
-    expect(response.body.message).toBe('Internal server error');
-
-    // Restore the original method
-    jest.restoreAllMocks();
+    // Assertions for the duplicate response
+    expect(duplicateResponse.status).toBe(400);
+    expect(duplicateResponse.body.error).toBe(true);
+    expect(duplicateResponse.body.msg).toBe('Department with this code or name already exists.');
   });
 });

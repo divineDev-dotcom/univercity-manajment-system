@@ -9,7 +9,7 @@ const { departmentCode, departmentName, headOfDepartment} = req.body;
 try {
 // Validate input
 if (!departmentCode || !departmentName) {
-return res.status(400).json({ message: 'Department code and name are required.' });
+return res.status(400).json({ msg: 'Department code and name are required.' });
 }
 
 // Check if department already exists
@@ -21,7 +21,7 @@ $or: [
 });
 
 if (existingDepartment) {
-return res.status(400).json({error: true, message: 'Department with this code or name already exists.'
+return res.status(400).json({error: true, msg: 'Department with this code or name already exists.'
 });
 }
 
@@ -34,7 +34,7 @@ updatedBy: req.user._id
 
 // Save to database
 await newDepartment.save();
-return res.status(201).json({error: false, message: 'Department created successfully',
+return res.status(201).json({error: false, msg: 'Department created successfully',
 data: newDepartment
 });
 } catch (error) {
