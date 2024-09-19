@@ -11,8 +11,9 @@ Routes and their access:
 const express = require("express");
 const authenticateJWT = require("../middleware/jwt.js");
 const {isValidId} = require("../middleware/data-validations");
-const {checkAdminOrSelf} = require("../middleware/route-access-authentication");
+const {checkAdmin, checkAdminOrSelf} = require("../middleware/route-access-authentication");
 const {login, registerUser, getProfileById, updateUserProfile} = require("../controllers/user-controller");
+const addUser = require("../controllers/user/add-user");
 
 const userRouter = express.Router();
 
@@ -20,6 +21,7 @@ const userRouter = express.Router();
 userRouter.post("/login", login);
 
 // protected routes
+userRouter.post("/add", authenticateJWT, checkAdmin, addUser);
 userRouter.post("/register",  authenticateJWT, registerUser);
 userRouter.get("/profile", authenticateJWT, isValidId, checkAdminOrSelf, getProfileById);
 userRouter.put("/update-profile/:_id", authenticateJWT, isValidId, checkAdminOrSelf, updateUserProfile);

@@ -10,6 +10,7 @@ semesterNumber: { type: Number, required: true },
 coreSubjects: [{ type: ObjectId, ref: "Subject", required: true }],
 electiveSubjects: [{ type: ObjectId, ref: "Subject", required: true }]
 }],
+documentsRequiredForAdmission: [ type: String, trim: true ],
 createdBy: { type: ObjectId, ref: "User", required: true },
 updatedBy: { type: ObjectId, ref: "User" }
 }, 

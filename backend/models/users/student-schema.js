@@ -22,8 +22,9 @@ default: "applied",
 required: true, trim: true
 },
 currentSemester: { type: Number },
-startDate: { type: Date },
-endDate: { type: Date }
+startDate: { type: Date }, // date of commencement of course
+endDate: { type: Date }, // date of completing or leaving the course
+reasonOfLeaving: { type: String, trim: true }
 }],
 });
 
