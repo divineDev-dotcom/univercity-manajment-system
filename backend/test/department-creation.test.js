@@ -8,12 +8,12 @@ const app = express();
 app.use(express.json()); // to parse JSON bodies
 
 // Mock the endpoint
-app.post('/department/createDepartment', createDepartment);
+app.post('/api/department/createDepartment', createDepartment);
 
-describe('POST /department/createDepartment', () => {
+describe('POST /api/department/createDepartment', () => {
   beforeAll(async () => {
     // Connect to a test database
-    await mongoose.connect('mongodb://localhost:27017/testdb');
+    await mongoose.connect('mongodb://localhost:27017/test');
   });
 
   afterAll(async () => {
@@ -21,10 +21,6 @@ describe('POST /department/createDepartment', () => {
     await mongoose.connection.close();
   });
 
-  beforeEach(async () => {
-    // Clear the database before each test
-    await Department.deleteMany({});
-  });
 
   test('should create a department successfully', async () => {
     const departmentData = {
@@ -34,7 +30,7 @@ describe('POST /department/createDepartment', () => {
     };
 
     const response = await request(app)
-      .post('/department/createDepartment')
+      .post('/api/department/createDepartment')
       .send(departmentData)
       .expect('Content-Type', /json/)
       .expect(201);
@@ -50,7 +46,7 @@ describe('POST /department/createDepartment', () => {
     };
 
     const response = await request(app)
-      .post('/department/createDepartment')
+      .post('/api/department/createDepartment')
       .send(departmentData)
       .expect('Content-Type', /json/)
       .expect(400);
@@ -66,14 +62,14 @@ describe('POST /department/createDepartment', () => {
 
     // First request to create the department
     await request(app)
-      .post('/department/createDepartment')
+      .post('/api/department/createDepartment')
       .send(departmentData)
       .expect('Content-Type', /json/)
       .expect(201);
 
     // Second request should fail due to duplicate
     const response = await request(app)
-      .post('/department/createDepartment')
+      .post('/api/department/createDepartment')
       .send(departmentData)
       .expect('Content-Type', /json/)
       .expect(400);
@@ -93,7 +89,7 @@ describe('POST /department/createDepartment', () => {
     };
 
     const response = await request(app)
-      .post('/department/createDepartment')
+      .post('/api/department/createDepartment')
       .send(departmentData)
       .expect('Content-Type', /json/)
       .expect(500);

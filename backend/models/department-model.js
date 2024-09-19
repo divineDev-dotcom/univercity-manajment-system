@@ -1,3 +1,19 @@
+const mongoose = require('mongoose');
+
+const departmentSchema = new mongoose.Schema({
+    departmentCode: { type: String, required: true },
+    departmentName: { type: String, required: true },
+    headOfDepartment: { type: String}
+}, 
+{
+    timestamps: true
+});
+
+const Department = mongoose.model('Department', departmentSchema);
+
+module.exports = Department;
+
+
 const mongoose = require("mongoose");
 const { Schema, ObjectId } = mongoose;
 
@@ -17,14 +33,14 @@ headOfDepartment: {
 type: String, 
 },
 createdBy: { 
-type: ObjectId, 
-ref: 'User' 
-},
-updatedBy: { 
-type: ObjectId, 
-ref: 'User' 
-}
-}, 
+ type: ObjectId, 
+ ref: 'User' 
+ },
+ updatedBy: { 
+ type: ObjectId, 
+ ref: 'User' 
+ }
+ }, 
 {timestamps: true} 
 );
 
