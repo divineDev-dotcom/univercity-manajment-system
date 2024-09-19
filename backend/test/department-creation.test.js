@@ -8,7 +8,7 @@ describe('POST /api/department/createDepartment', () => {
     await mongoose.connect("mongodb://127.0.0.1:27017/ums");
     
     // Optionally, clear any existing data before tests
-    await User.deleteOne({ userName: 'testuser' }); // Delete specific test user if exists
+    await Department.deleteOne({ departmentCode: 'testuser' }); // Delete specific test user if exists
   });
 
   afterAll(async () => {

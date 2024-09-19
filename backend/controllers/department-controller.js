@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const {Department} = require("../models/department-model");
+const Department = require("../models/department-model");
 
 // create department
 
