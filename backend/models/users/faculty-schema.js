@@ -12,7 +12,7 @@ const mongoose = require("mongoose");
 const {Schema, ObjectId} = mongoose;
 
 const facultySchema = new Schema({
-
+isWorking: { type: Boolean, required: true, default: false }
 });
 
 module.exports = facultySchema;

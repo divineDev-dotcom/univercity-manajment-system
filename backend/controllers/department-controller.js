@@ -1,56 +1,47 @@
+const mongoose = require("mongoose");
 const Department = require("../models/department-model");
 
 // create department
 
 const createDepartment = async (req, res) => {
-    try {
-        const { departmentCode, departmentName, headOfDepartment} = req.body;
+const { departmentCode, departmentName, headOfDepartment} = req.body;
 
-        // Validate input
-        if (!departmentCode || !departmentName) {
-            return res.status(400).json({ message: 'Department code and name are required.' });
-        }
+try {
+// Validate input
+if (!departmentCode || !departmentName) {
+return res.status(400).json({ msg: 'Department code and name are required.' });
+}
 
-        // Check if department already exists
-        const existingDepartment = await Department.findOne({
-            $or: [
-                { departmentCode },
-                { departmentName }
-            ]
-        });
+// Check if department already exists
+const existingDepartment = await Department.findOne({
+$or: [
+{ departmentCode },
+{ departmentName }
+]
+});
 
-        if (existingDepartment) {
-            return res.status(400).json({
-                message: 'Department with this code or name already exists.'
-            });
-        }
+if (existingDepartment) {
+return res.status(400).json({error: true, msg: 'Department with this code or name already exists.'
+});
+}
 
-        // Create new department
-        const department = new Department({
-            departmentCode,
-            departmentName,
-            headOfDepartment,
-//             createdBy: req.user._id,
-//             updatedBy: req.user._id
-        });
+// Create new department
+const newDepartment = new Department({
+departmentCode, departmentName, headOfDepartment,
+createdBy: req.user._id,
+updatedBy: req.user._id
+});
 
-        // Save to database
-        await department.save();
-
-        // Send response
-        res.status(201).json({
-            message: 'Department created successfully',
-            data: department
-        });
-    } catch (error) {
-        console.error('Error creating department:', error);
-        res.status(500).json({
-            message: 'Internal server error',
-            error: error.message
-        });
-    }
+// Save to database
+await newDepartment.save();
+return res.status(201).json({error: false, msg: 'Department created successfully',
+data: newDepartment
+});
+} catch (error) {
+return res.status(500).json({error: true, msg: `Error saving department: ${error.message}`
+});
+}
 };
-
 
 // Get all departments
 
