@@ -8,7 +8,7 @@ describe('POST /api/department/createDepartment', () => {
     await mongoose.connect("mongodb://127.0.0.1:27017/ums");
     
     // Optionally, clear any existing data before tests
-    await Department.deleteOne({ departmentCode: 'testuser' }); // Delete specific test user if exists
+    await Department.deleteOne({ departmentCode: 'testuser' }); // Delete specific test department if exists
   });
 
   afterAll(async () => {
@@ -17,13 +17,13 @@ describe('POST /api/department/createDepartment', () => {
   });
 
   it('should create a new department successfully', async () => {
-    const response = await request(app)  // No need to specify port here
+    const response = await request(app)
       .post('/api/department/createDepartment')
       .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMTEyMjMzNDQ1NTY2Nzc4ODk5MDAiLCJyb2xlIjoiYWRtaW4ifQ.2_6WwlWGCQu-viwSVNcWktqsp5Kbg-HLqZflGiR0Mb4')  // Include valid JWT
       .send({
-departmentCode: 'testuser',
-departmentName: 'testuser',
-headOfDepartment: 'Ashish',
+        departmentCode: 'testuser',
+        departmentName: 'testuser',
+        headOfDepartment: 'Ashish',
       });
 
     // Assertions
@@ -38,9 +38,9 @@ headOfDepartment: 'Ashish',
       .post('/api/department/createDepartment')
       .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMTEyMjMzNDQ1NTY2Nzc4ODk5MDAiLCJyb2xlIjoiYWRtaW4ifQ.2_6WwlWGCQu-viwSVNcWktqsp5Kbg-HLqZflGiR0Mb4')  // Include valid JWT
       .send({
-departmentCode: 'testuser',
-departmentName: 'testuser',
-headOfDepartment: 'Ashish',
+        departmentCode: 'testuser',
+        departmentName: 'testuser',
+        headOfDepartment: 'Ashish',
       });
 
     // Second creation with the same departmentCode
@@ -48,14 +48,45 @@ headOfDepartment: 'Ashish',
       .post('/api/department/createDepartment')
       .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMTEyMjMzNDQ1NTY2Nzc4ODk5MDAiLCJyb2xlIjoiYWRtaW4ifQ.2_6WwlWGCQu-viwSVNcWktqsp5Kbg-HLqZflGiR0Mb4')  // Include valid JWT
       .send({
-departmentCode: 'testuser',   // Duplicate username
-departmentName: 'testuser', // Duplicate
-headOfDepartment: 'Ashish',
+        departmentCode: 'testuser', // Duplicate code
+        departmentName: 'testuser', // Duplicate name
+        headOfDepartment: 'Ashish',
       });
 
     // Assertions for the duplicate response
     expect(duplicateResponse.status).toBe(400);
     expect(duplicateResponse.body.error).toBe(true);
     expect(duplicateResponse.body.msg).toBe('Department with this code or name already exists.');
+  });
+
+  it('should return 401 if JWT token is missing', async () => {
+    const response = await request(app)
+      .post('/api/department/createDepartment')
+      .send({
+        departmentCode: 'missingtoken',
+        departmentName: 'missingtoken',
+        headOfDepartment: 'Ashish',
+      });
+
+    // Assertions
+    expect(response.status).toBe(401);
+    expect(response.body.error).toBe(true);
+    expect(response.body.msg).toBe('Token is missing');
+  });
+
+  it('should return 403 if JWT token is invalid', async () => {
+    const response = await request(app)
+      .post('/api/department/createDepartment')
+      .set('Authorization', 'Bearer invalidtoken')  // Include an invalid JWT
+      .send({
+        departmentCode: 'invalidtoken',
+        departmentName: 'invalidtoken',
+        headOfDepartment: 'Ashish',
+      });
+
+    // Assertions
+    expect(response.status).toBe(403);
+    expect(response.body.error).toBe(true);
+    expect(response.body.msg).toBe('Invalid token');
   });
 });
