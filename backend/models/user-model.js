@@ -14,15 +14,15 @@ const { hashPassword, hashPasswordForUpdate, comparePassword } = require("../hel
 const studentSchema = require("./users/student-schema");
 const facultySchema = require("./users/faculty-schema");
 
+// array of allowed roles
+const allowedRoles = ["super-admin", "admin", "faculty", "student" ];
+const getRoles = () => { return allowedRoles }; // to be used by other modules
+
 const userSchema = new Schema({
 userName: { type: String, required: true, unique: true, trim: true },
 password: { type: String, required: true },
 email: { type: String, required: true, unique: true, trim: true },
-role: {
-type: String,
-enum: ["super-admin", "admin", "faculty", "student" ],
-required: true, trim: true
-},
+role: { type: String, enum: allowedRoles, required: true, trim: true },
 personalDetails: {
 firstName: { type: String, required: true, trim: true },
 lastName: { type: String, required: true, trim: true },
@@ -57,4 +57,4 @@ const Admin = User.discriminator("admin", new Schema({}, {_id: false}));
 const Student = User.discriminator("student", studentSchema);
 const Faculty = User.discriminator("faculty", facultySchema);
 
-module.exports = {User, SuperAdmin, Admin, Student, Faculty};
+module.exports = {User, SuperAdmin, Admin, Student, Faculty, getRoles};
