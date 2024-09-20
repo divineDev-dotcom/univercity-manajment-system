@@ -1,7 +1,7 @@
-const {getRoles} = require("../models/user-model");
+const {getUserRoles} = require("../models/user-model");
 
 const isValidRole = (role) => {
-const allowedRoles = getRoles();
+const allowedRoles = getUserRoles();
 return allowedRoles.includes(role);
 };
 

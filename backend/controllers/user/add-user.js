@@ -5,9 +5,8 @@ Description: Adds a new Admin or Faculty
 
 const mongoose = require("mongoose");
 const {User, Admin, Faculty} = require("../../models/user-model");
-const { isValidRole } = require("../../helpers/validate-role-helper");
-const { validateUserDetails } = require("../../helpers/validate-user-details-helper");
-const { createUser } = require("../../helpers/create-user-helper");
+const validateUserDetails = require("../../helpers/validate-user-details-helper");
+const createUser = require("../../helpers/create-user-helper");
 
 const addUser = async (req, res) => {
 try {
@@ -29,7 +28,7 @@ return res.status(400).json({error: true, msg: `Username or email already exists
 // create a new user depending on the role provided
 const newUser = createUser(userDetails);
 
-if (newUser instanceof String && newUser === "Invalid role") {
+if (typeof newUser === "string" && newUser === "Invalid role") {
 return res.status(400).json({error: true, msg: `Invalid route for ${userDetails.role} creation`});
 }
 
@@ -39,9 +38,9 @@ newUser.updatedBy = loggedInUserId
 
 // add the newly created user to the database
 await newUser.save();
-return res.status(201).json({error: false, msg: `New ${role} saved`, data: newUser});
+return res.status(201).json({error: false, msg: `New ${newUser.role} saved`, data: newUser});
 } catch(error) {
-console.error(`An error occured while adding user: ${error.message}`);
+console.error(`Error saving user: ${error.message}`);
 return res.status(500).json({error: true, msg: `Error saving user: ${error.message}`});
 }
 };

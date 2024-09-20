@@ -14,9 +14,9 @@ const {User, Admin, Faculty} = require("../models/user-model");
 
 const createUser = (userDetails) => {
 let user = null;
-switch (role) {
+switch (userDetails.role) {
 case "admin":
-newUser = new Admin({
+user = new Admin({
 userName: userDetails.userName, 
 email: userDetails.email, 
 password: userDetails.password, 
@@ -24,7 +24,7 @@ personalDetails: userDetails.personalDetails
 });
 break;
 case "faculty":
-newUser = new Faculty({
+user = new Faculty({
 userName: userDetails.userName, 
 email: userDetails.email, 
 password: userDetails.password, 
@@ -38,6 +38,9 @@ break;
 default:
 return "Invalid role";
 } // end switch
+// add role to the newly created user as it is of base class type
+user.role = userDetails.role;
+
 return user;
 };
 

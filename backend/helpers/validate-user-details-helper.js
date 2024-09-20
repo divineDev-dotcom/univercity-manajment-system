@@ -8,7 +8,9 @@ Returns:
 Description: checks if any of the required fields is not provided
 */
 
-const { isValidRole } = require("./validate-role-helper");
+const mongoose = require("mongoose");
+
+const isValidRole = require("./validate-role-helper");
 
 const validateUserDetails = (userDetails) => {
 // user details should not be null
@@ -18,16 +20,20 @@ if (!userDetails) return `Missing user details object`;
 const requiredFields = ["userName", "email", "password", "role", "personalDetails"];
 const requiredPersonalDetails = ["firstName", "lastName", "birthday", "phone", "address", "city", "state", "country", "zipCode"];
 
-
 // check if required fields are present
 for (let field of requiredFields) {
-if (!userDetails.field) return `Missing required field: ${field}`;
+if (!userDetails[field]) return `Missing required field: ${field}`;
 }
 
 // check if required fields of personal details are missing
 for (let field of requiredPersonalDetails) {
-if (!userDetails.field) return `Missing required personal detail: ${field}`;
+if (!userDetails.personalDetails[field]) return `Missing required personal detail: ${field}`;
 }
+
+
+// check if email is in correct pattern
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+if ( !emailRegex.test(userDetails.email) ) return `Invalid email: ${userDetails.email}`;
 
 // check if user details contain a valid role
 if ( !isValidRole(userDetails.role) ) {
@@ -39,12 +45,22 @@ switch (userDetails.role) {
 case "admin":
 break;
 case "faculty":
-if (!userDetails.departmentId) return `Missing department Id for ${role}`;
+if (!userDetails.departmentId) return `Missing department Id for ${userDetails.role}`;
 if ( !mongoose.Types.ObjectId.isValid(userDetails.departmentId) ) return `Invalid ObjectId passed as departmentId`;
 if (!userDetails.salary) return `Missing salary for ${userDetails.role}`;
 if (!userDetails.dateOfJoining) return `Missing date of joining for ${userDetails.role}`;
-break;
-case "student":
+
+// validate date of joining
+const dateOfJoining = new Date(userDetails.dateOfJoining);
+if ( isNaN(dateOfJoining.getTime()) ) {
+return `Invalid date format: ${dateOfJoining}. Please provide date in the format YYYY/MM/DD`;
+}
+
+// check that date of joining should not be more than current date
+const currentDate = new Date();
+if ( dateOfJoining > currentDate ) {
+return `Invalid date (${userDetails.dateOfJoining}: )date of joining can not be a future date`;
+}
 break;
 default:
 return `Inappropriate role for the functionality: ${userDetails.role}`;
