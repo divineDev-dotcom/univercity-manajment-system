@@ -16,7 +16,7 @@ const facultySchema = require("./users/faculty-schema");
 
 // array of allowed roles
 const allowedRoles = ["super-admin", "admin", "faculty", "student" ];
-const getRoles = () => { return allowedRoles }; // to be used by other modules
+const getUserRoles = () => { return allowedRoles }; // to be used by other modules
 
 const userSchema = new Schema({
 userName: { type: String, required: true, unique: true, trim: true },
@@ -32,7 +32,7 @@ address: { type: String, required: true, trim: true },
 city: { type: String, required: true, trim: true  },
 state: {type: String, required: true, trim: true},
 country: { type: String, required: true, trim: true },
-zipCode: { type: Number, required: true }
+zipCode: { type: String, required: true }
   },
 profilePicture: { type: String, trim: true },
 createdBy: { type: ObjectId, ref: "User", required: true },
@@ -57,4 +57,4 @@ const Admin = User.discriminator("admin", new Schema({}, {_id: false}));
 const Student = User.discriminator("student", studentSchema);
 const Faculty = User.discriminator("faculty", facultySchema);
 
-module.exports = {User, SuperAdmin, Admin, Student, Faculty, getRoles};
+module.exports = {User, SuperAdmin, Admin, Student, Faculty, getUserRoles};
