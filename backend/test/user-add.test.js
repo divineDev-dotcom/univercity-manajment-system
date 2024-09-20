@@ -1,3 +1,11 @@
+/*
+This test uses jest and supertest. 
+1. Use the following command to install:
+npm install --save-dev jest supertest
+2. Run the test script using the command:
+npx jest test/user-login.test.js
+*/
+
 require("dotenv").config();
 const request = require("supertest");
 const express = require("express");
@@ -12,7 +20,7 @@ let token;
 
 beforeAll(async () => {
 try {
-await mongoose.connect(process.env.MONGO_URI);
+await mongoose.connect(process.env.MONGO_TEST_URI);
 const testUser = new User({
 userName: "adminUser",
 email: "admin@example.com",

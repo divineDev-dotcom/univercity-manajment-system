@@ -14,7 +14,7 @@ const { User } = require("../models/user-model");
 
 describe('POST /user/login', () => {
 beforeAll(async () => {
-await mongoose.connect(process.env.MONGO_URI);
+await mongoose.connect(process.env.MONGO_TEST_URI);
 const studentUser = new User({
 userName: 'testuser',
 email: 'testuser@example.com',

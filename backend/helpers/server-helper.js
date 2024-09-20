@@ -23,8 +23,8 @@ try {
 let superAdmin = await User.findOne({role: "super-admin"});
 if (superAdmin) return; // no need to create as super admin already exists
 superAdmin = new SuperAdmin({
-userName: "superadmin",
-password: "ums-access/1",
+userName: process.env.SUPERADMIN_USERNAME,
+password: process.env.SUPERADMIN_PASSWORD,
 email: "superadmin@example.com",
 personalDetails: {
 firstName: "Super",
