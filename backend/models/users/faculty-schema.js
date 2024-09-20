@@ -1,18 +1,16 @@
 /*
-subjects - subjects taught by the faculty
-dateOfJoining: date of hiring
-isCurrentlyWorking 
-dateOfLeaving - if retired or left job
-salary 
-a field to point to studentId in case faculty had passed out from the same university
-Please see if anything else is required
-please remember not to create model here
+This faculty model is being used as discriminator of the User model.
 */
 const mongoose = require("mongoose");
-const {Schema, ObjectId} = mongoose;
+const {Schema, ObjectId, Decimal128} = mongoose;
 
 const facultySchema = new Schema({
-isWorking: { type: Boolean, required: true, default: false }
+isWorking: { type: Boolean, default: true, required: true },
+dateOfJoining: { type: Date, required: true },
+dateOfLeaving: { type: Date },
+salary: { type: Decimal128, required: true }, // records monthly salary for now
+subjects: [{ type: ObjectId, ref: "Subject" }],
+isAlumni: { type: Boolean, default: false, required: true } // informs if faculty is ex student of this university
 });
 
 module.exports = facultySchema;

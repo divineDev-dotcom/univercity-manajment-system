@@ -28,12 +28,15 @@ updatedBy: loggedInUserId
 });
 break;
 case "faculty":
-// get faculty related information from req.body
+const {dateOfJoining, salary, subjects, isAlumni} = req.body;
 newUser = new Faculty({
 userName, email, password, personalDetails,
+salary, isAlumni,
 createdBy: loggedInUserId,
 updatedBy: loggedInUserId
 });
+if (dateOfJoining) newUser.dateOfJoining = dateOfJoining;
+if (subjects && subjects.length) newUser.subjects = subjects;
 break;
 default:
 return res.status(400).json({error: true, msg: `Invalid role: ${role}`});
