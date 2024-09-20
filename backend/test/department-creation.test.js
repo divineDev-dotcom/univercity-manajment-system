@@ -5,14 +5,17 @@ const Department = require("../models/department-model");
 
 describe('POST /api/department/createDepartment', () => {
   beforeAll(async () => {
-    await mongoose.connect("mongodb://127.0.0.1:27017/ums");
-    
-    // Optionally, clear any existing data before tests
-    await Department.deleteOne({ departmentCode: 'testuser' }); // Delete specific test department if exists
+    try {
+      await mongoose.connect("mongodb://127.0.0.1:27017/ums");
+      
+      // Optionally, clear any existing data before tests
+      await Department.deleteMany({ departmentCode: 'testuser' });
+    } catch (err) {
+      console.error('Error connecting to MongoDB:', err);
+    }
   });
 
   afterAll(async () => {
-    // Disconnect from the database after tests
     await mongoose.disconnect();
   });
 
@@ -33,23 +36,21 @@ describe('POST /api/department/createDepartment', () => {
   });
 
   it('should return an error when registering with a duplicate departmentCode', async () => {
-    // First registration
     await request(app)
       .post('/api/department/createDepartment')
-      .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMTEyMjMzNDQ1NTY2Nzc4ODk5MDAiLCJyb2xlIjoiYWRtaW4ifQ.2_6WwlWGCQu-viwSVNcWktqsp5Kbg-HLqZflGiR0Mb4')  // Include valid JWT
+      .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMTEyMjMzNDQ1NTY2Nzc4ODk5MDAiLCJyb2xlIjoiYWRtaW4ifQ.2_6WwlWGCQu-viwSVNcWktqsp5Kbg-HLqZflGiR0Mb4')
       .send({
         departmentCode: 'testuser',
         departmentName: 'testuser',
         headOfDepartment: 'Ashish',
       });
 
-    // Second creation with the same departmentCode
     const duplicateResponse = await request(app)
       .post('/api/department/createDepartment')
-      .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMTEyMjMzNDQ1NTY2Nzc4ODk5MDAiLCJyb2xlIjoiYWRtaW4ifQ.2_6WwlWGCQu-viwSVNcWktqsp5Kbg-HLqZflGiR0Mb4')  // Include valid JWT
+      .set('Authorization', 'Bearer validtokenhere')
       .send({
-        departmentCode: 'testuser', // Duplicate code
-        departmentName: 'testuser', // Duplicate name
+        departmentCode: 'testuser',
+        departmentName: 'testuser',
         headOfDepartment: 'Ashish',
       });
 
@@ -77,7 +78,7 @@ describe('POST /api/department/createDepartment', () => {
   it('should return 403 if JWT token is invalid', async () => {
     const response = await request(app)
       .post('/api/department/createDepartment')
-      .set('Authorization', 'Bearer invalidtoken')  // Include an invalid JWT
+      .set('Authorization', 'Bearer invalidtoken')
       .send({
         departmentCode: 'invalidtoken',
         departmentName: 'invalidtoken',

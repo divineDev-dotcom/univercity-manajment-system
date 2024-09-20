@@ -55,7 +55,7 @@ const getDepartments = async (req, res) => {
     }
 
     // Return the list of departments as JSON
-    res.status(200).json(error: false, msg: "Departments found", data: departments);
+return res.status(200).json({error: false, msg: "Departments found", data: departments});
   } catch (error) {
     console.error("Error fetching departments:", error);
 return res.status(500).json({error: true, msg: 'Server error, could not fetch departments' });
