@@ -1,9 +1,13 @@
 import {Link} from 'react-router-dom';
-
+import { Menu } from './barrel';
 const Header = () => {
+const accountMenuItems =[
+{ label: "Privacy policy", link: "/privacypolicy" }
+] 
 return(
 <div>
 <header>
+<Menu title="Account Manager" items={ accountMenuItems } />
 <nav>
 <ul>
 <li>
