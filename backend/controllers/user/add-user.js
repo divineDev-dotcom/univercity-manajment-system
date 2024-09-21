@@ -6,6 +6,7 @@ Description: Adds a new Admin or Faculty
 const mongoose = require("mongoose");
 const { User } = require("../../models/user-model");
 const validateUserDetails = require("../../helpers/validate-user-details-helper");
+const checkUserDependencies = require("../../helpers/check-user-dependencies-helper");
 const createUser = require("../../helpers/create-user-helper");
 
 const addUser = async (req, res) => {
@@ -30,6 +31,12 @@ const newUser = createUser(userDetails);
 
 if (typeof newUser === "string" && newUser === "Invalid role") {
 return res.status(400).json({error: true, msg: `Invalid route for ${userDetails.role} creation`});
+}
+
+// check user dependencies before saving to the database
+const dependencyError = await checkUserDependencies(newUser);
+if (dependencyError) {
+return res.status(400).json({error: true, msg: dependencyError});
 }
 
 // add the information about who is creating the user
