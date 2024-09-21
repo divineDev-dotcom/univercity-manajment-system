@@ -10,19 +10,31 @@ require("dotenv").config();
 const request = require("supertest");
 const mongoose = require("mongoose");
 const { User } = require("../models/user-model");
+const Department = require("../models/department-model");
+const Subject = require("../models/subject-model");
 const app = require("../app.js");
 const generateJWT = require("../helpers/jwt-helper");
 const createTestUserObject = require("./test-helpers/create-test-user-object");
+const createTestDepartmentObject = require("./test-helpers/create-test-department-object");
+const createTestSubjectObject = require("./test-helpers/create-test-subject-object");
 
 describe("POST /api/user/add", () => {
-  let token;
+  let token, departmentId, subjectId;
 
   beforeAll(async () => {
     try {
       await mongoose.connect(process.env.MONGO_TEST_URI);
       const testUser = createTestUserObject("admin");
+      const testDepartment = createTestDepartmentObject();
+      const testSubject = createTestSubjectObject();
+
       await testUser.save();
       token = generateJWT(testUser._id, testUser.role);
+
+      await testDepartment.save();
+      await testSubject.save();
+      departmentId = testDepartment._id;
+      subjectId = testSubject._id;
     } catch (error) {
       console.error(`Error configuring user-add test suites: ${error}`);
     }
@@ -30,6 +42,8 @@ describe("POST /api/user/add", () => {
 
   afterAll(async () => {
     await User.deleteMany({});
+    await Department.deleteMany({});
+    await Subject.deleteMany({});
     await mongoose.connection.close();
   });
 
@@ -83,10 +97,10 @@ describe("POST /api/user/add", () => {
         zipCode: 54321,
       },
       employmentStatus: "working",
-      departmentId: new mongoose.Types.ObjectId(), // Replace with a valid department ID
+      departmentId: departmentId, // Replace with a valid department ID
       hireDate: "2015-09-01",
       salary: 60000.00, // Assume a salary in Decimal128 format
-      subjects: [new mongoose.Types.ObjectId()], // Replace with valid subject IDs
+      subjects: [subjectId], // Replace with valid subject IDs
     };
 
     const response = await request(app)
