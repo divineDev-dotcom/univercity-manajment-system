@@ -4,7 +4,7 @@ Description: Adds a new Admin or Faculty
 */
 
 const mongoose = require("mongoose");
-const {User, Admin, Faculty} = require("../../models/user-model");
+const { User } = require("../../models/user-model");
 const validateUserDetails = require("../../helpers/validate-user-details-helper");
 const createUser = require("../../helpers/create-user-helper");
 

@@ -14,6 +14,7 @@ const userRouter = require("../routers/user-router");
 const { User } = require("../models/user-model");
 const app = require("../app.js");
 const generateJWT = require("../helpers/jwt-helper");
+const createTestUserObject = require("./test-helpers/create-test-user-object");
 
 describe("POST /api/user/add", () => {
 let token;
@@ -21,24 +22,7 @@ let token;
 beforeAll(async () => {
 try {
 await mongoose.connect(process.env.MONGO_TEST_URI);
-const testUser = new User({
-userName: "adminUser",
-email: "admin@example.com",
-password: "password123",
-role: "admin",
-personalDetails: {
-firstName: "Admin",
-lastName: "User",
-birthday: "1980-01-01",
-phone: "1234567890",
-address: "456 Admin St",
-city: "Admin City",
-state: "Admin State",
-country: "Admin Country",
-zipCode: 12345,
-},
-createdBy: new mongoose.Types.ObjectId(), // Assuming createdBy is required
-});
+const testUser = createTestUserObject("admin");
 await testUser.save();
 token = generateJWT(testUser._id, testUser.role);
 } catch (error) {
@@ -61,6 +45,7 @@ personalDetails: {
 firstName: "New",
 lastName: "Admin",
 birthday: "1990-01-01",
+gender: "male",
 phone: "1234567890",
 address: "123 Admin St",
 city: "Admin City",
@@ -99,6 +84,7 @@ personalDetails: {
 firstName: "Duplicate",
 lastName: "Admin",
 birthday: "1990-01-01",
+gender: "male",
 phone: "1234567890",
 address: "123 Duplicate St",
 city: "Duplicate City",
@@ -127,6 +113,7 @@ personalDetails: {
 firstName: "Invalid",
 lastName: "Role",
 birthday: "1990-01-01",
+gender: "other",
 phone: "1234567890",
 address: "123 Invalid St",
 city: "Invalid City",
@@ -160,6 +147,7 @@ personalDetails: {
 firstName: "Server",
 lastName: "Error",
 birthday: "1990-01-01",
+gender: "female",
 phone: "1234567890",
 address: "123 Server St",
 city: "Server City",

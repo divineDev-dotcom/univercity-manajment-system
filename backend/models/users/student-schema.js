@@ -22,6 +22,7 @@ default: "applied",
 required: true, trim: true
 },
 currentSemester: { type: Number },
+academicYear: { type: String, required: true, trim: true },
 startDate: { type: Date }, // date of commencement of course
 endDate: { type: Date }, // date of completing or leaving the course
 reasonOfLeaving: { type: String, trim: true }

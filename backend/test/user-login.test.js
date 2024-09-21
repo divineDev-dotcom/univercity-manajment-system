@@ -11,28 +11,12 @@ const request = require("supertest");
 const app = require("../app"); 
 const mongoose = require("mongoose");
 const { User } = require("../models/user-model");
+const createTestUserObject = require("./test-helpers/create-test-user-object");
 
 describe('POST /user/login', () => {
 beforeAll(async () => {
 await mongoose.connect(process.env.MONGO_TEST_URI);
-const studentUser = new User({
-userName: 'testuser',
-email: 'testuser@example.com',
-password: 'password123',
-role: 'student',
-personalDetails: {
-firstName: 'Test',
-lastName: 'User',
-birthday: '1998-01-01',
-phone: '1234567890',
-address: '123 Test Street',
-city: 'Test City',
-state: 'Test State',
-country: 'Test Country',
-zipCode: 12345,
-},
-createdBy: new mongoose.Types.ObjectId(), // Correctly creating ObjectId instance
-});
+const studentUser = createTestUserObject("student");
 await studentUser.save();
 });
 

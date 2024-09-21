@@ -1,18 +1,17 @@
 /*
 Please note that this function does not support creation of a student, as it will be handled separately by createStudent function.
-Function name: createUser
+Function name: createUserObject
 Parameters: valid userDetails object containing details of the user to be added
 Returns: 
 	- user object that represents any one of the following - Admin or Faculty
 	- String "Invalid role", if role is invalid for this function
-	- "Inappropriate user details", if user details are incomplete / inappropriate for the user to be created
 Description: Depending of the role property in the userDetails object, this function creates an admin or faculty user to be used by insert operation in the database.
 */
 
 const mongoose = require("mongoose");
 const {User, Admin, Faculty} = require("../models/user-model");
 
-const createUser = (userDetails) => {
+const createUserObject = (userDetails) => {
 let user = null;
 switch (userDetails.role) {
 case "admin":
@@ -31,7 +30,7 @@ password: userDetails.password,
 personalDetails: userDetails.personalDetails,
 departmentId: userDetails.departmentId,
 salary: userDetails.salary,
-dateOfJoining: userDetails.dateOfJoining
+hireDate: userDetails.hireDate
 });
 if (userDetails.subjects && userDetails.subjects.length) user.subjects = userDetails.subjects;
 break;
@@ -44,4 +43,4 @@ user.role = userDetails.role;
 return user;
 };
 
-module.exports = createUser;
+module.exports = createUserObject;

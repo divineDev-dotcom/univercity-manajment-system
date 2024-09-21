@@ -9,8 +9,9 @@ Description: checks if any of the required fields is not provided
 */
 
 const mongoose = require("mongoose");
-
 const isValidRole = require("./validate-role-helper");
+const { User } = require("../models/user-model");
+const genderEnum = User.schema.path("personalDetails.gender").enumValues;
 
 const validateUserDetails = (userDetails) => {
 // user details should not be null
@@ -18,7 +19,7 @@ if (!userDetails) return `Missing user details object`;
 
 // declaration of required fields
 const requiredFields = ["userName", "email", "password", "role", "personalDetails"];
-const requiredPersonalDetails = ["firstName", "lastName", "birthday", "phone", "address", "city", "state", "country", "zipCode"];
+const requiredPersonalDetails = ["firstName", "lastName", "birthday", "gender", "phone", "address", "city", "state", "country", "zipCode"];
 
 // check if required fields are present
 for (let field of requiredFields) {
@@ -35,6 +36,11 @@ if (!userDetails.personalDetails[field]) return `Missing required personal detai
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 if ( !emailRegex.test(userDetails.email) ) return `Invalid email: ${userDetails.email}`;
 
+// check if gender value is valid as per User model
+if ( !genderEnum.includes(userDetails.personalDetails.gender) ) {
+return `Invalid gender: ${userDetails.personalDetails.gender}`;
+}
+
 // check if user details contain a valid role
 if ( !isValidRole(userDetails.role) ) {
 return `Invalid role: ${userDetails.role}`;
@@ -48,18 +54,18 @@ case "faculty":
 if (!userDetails.departmentId) return `Missing department Id for ${userDetails.role}`;
 if ( !mongoose.Types.ObjectId.isValid(userDetails.departmentId) ) return `Invalid ObjectId passed as departmentId`;
 if (!userDetails.salary) return `Missing salary for ${userDetails.role}`;
-if (!userDetails.dateOfJoining) return `Missing date of joining for ${userDetails.role}`;
+if (!userDetails.hireDate) return `Missing date of hiring for ${userDetails.role}`;
 
-// validate date of joining
-const dateOfJoining = new Date(userDetails.dateOfJoining);
-if ( isNaN(dateOfJoining.getTime()) ) {
-return `Invalid date format: ${dateOfJoining}. Please provide date in the format YYYY/MM/DD`;
+// validate date of hiring
+const hireDate = new Date(userDetails.hireDate);
+if ( isNaN(hireDate.getTime()) ) {
+return `Invalid date format: ${hireDate}. Please provide date in the format YYYY/MM/DD`;
 }
 
-// check that date of joining should not be more than current date
+// check that hire date should not be more than current date
 const currentDate = new Date();
-if ( dateOfJoining > currentDate ) {
-return `Invalid date (${userDetails.dateOfJoining}: )date of joining can not be a future date`;
+if ( hireDate > currentDate ) {
+return `Invalid date (${userDetails.hireDate}: )date of joining can not be a future date`;
 }
 break;
 default:

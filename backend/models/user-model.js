@@ -27,6 +27,7 @@ personalDetails: {
 firstName: { type: String, required: true, trim: true },
 lastName: { type: String, required: true, trim: true },
 birthday: {type: Date, required: true},
+gender: { type: String, enum: ["female", "male", "other"], required: true, trim: true },
 phone: { type: String, required: true, trim: true  },
 address: { type: String, required: true, trim: true },
 city: { type: String, required: true, trim: true  },
