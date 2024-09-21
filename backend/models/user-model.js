@@ -24,6 +24,10 @@ userName: { type: String, required: true, unique: true, trim: true },
 password: { type: String, required: true },
 email: { type: String, required: true, unique: true, trim: true },
 role: { type: String, enum: allowedRoles, required: true, trim: true },
+
+isActive: { type: Boolean, default: true, required: true, trim: true },
+reasonOfDeactivation: { type: String, trim: true }, // should be noted if user has been deactivated
+
 personalDetails: {
 firstName: { type: String, required: true, trim: true },
 lastName: { type: String, required: true, trim: true },
@@ -37,6 +41,7 @@ country: { type: String, required: true, trim: true },
 zipCode: { type: String, required: true }
   },
 profilePicture: { type: String, trim: true },
+
 createdBy: { type: ObjectId, ref: "User", required: true },
 updatedBy: { type: ObjectId, ref: "User" }
 }, 
