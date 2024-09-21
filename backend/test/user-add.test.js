@@ -51,6 +51,8 @@ describe("POST /api/user/add", () => {
         country: "Admin Country",
         zipCode: 12345,
       },
+      hireDate: "2015-09-01",
+      salary: 60000.00, // Assume a salary in Decimal128 format
     };
 
     const response = await request(app)
@@ -124,6 +126,8 @@ describe("POST /api/user/add", () => {
         country: "Duplicate Country",
         zipCode: 12345,
       },
+      hireDate: "2015-09-01",
+      salary: 60000.00, // Assume a salary in Decimal128 format
     };
 
     const response = await request(app)
@@ -153,7 +157,8 @@ describe("POST /api/user/add", () => {
         country: "Invalid Country",
         zipCode: 12345,
       },
-      createdBy: token,
+      hireDate: "2015-09-01",
+      salary: 60000.00, // Assume a salary in Decimal128 format
     };
 
     const response = await request(app)
@@ -187,6 +192,8 @@ describe("POST /api/user/add", () => {
         country: "Server Country",
         zipCode: 12345,
       },
+      hireDate: "2015-09-01",
+      salary: 60000.00, // Assume a salary in Decimal128 format
     };
 
     const response = await request(app)

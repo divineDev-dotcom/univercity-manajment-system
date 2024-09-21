@@ -23,6 +23,8 @@ state: "Admin State",
 country: "Admin Country",
 zipCode: 12345,
 },
+hireDate: "2010-08-01",
+salary: 50000.00, // Assume salary in Decimal128 format
 createdBy: new mongoose.Types.ObjectId(), // Assuming createdBy is required
 });
 break;

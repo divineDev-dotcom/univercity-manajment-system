@@ -13,6 +13,7 @@ const { Schema, ObjectId } = mongoose;
 const { hashPassword, hashPasswordForUpdate, comparePassword } = require("../helpers/password-helper.js");
 const studentSchema = require("./users/student-schema");
 const facultySchema = require("./users/faculty-schema");
+const adminSchema = require("./users/admin-schema");
 
 // array of allowed roles
 const allowedRoles = ["super-admin", "admin", "faculty", "student" ];
@@ -54,7 +55,7 @@ const User = mongoose.model("User", userSchema);
 
 // discriminators
 const SuperAdmin = User.discriminator("super-admin", new Schema({}, {_id: false}));
-const Admin = User.discriminator("admin", new Schema({}, {_id: false}));
+const Admin = User.discriminator("admin", adminSchema);
 const Student = User.discriminator("student", studentSchema);
 const Faculty = User.discriminator("faculty", facultySchema);
 

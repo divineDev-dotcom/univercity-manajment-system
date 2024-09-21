@@ -14,7 +14,7 @@ const { User } = require("../models/user-model");
 const genderEnum = User.schema.path("personalDetails.gender").enumValues;
 
 const validateUserDetails = (userDetails) => {
-// user details should not be null
+// user details object should not be null
 if (!userDetails) return `Missing user details object`;
 
 // declaration of required fields
@@ -41,22 +41,11 @@ if ( !genderEnum.includes(userDetails.personalDetails.gender) ) {
 return `Invalid gender: ${userDetails.personalDetails.gender}`;
 }
 
-// check if user details contain a valid role
-if ( !isValidRole(userDetails.role) ) {
-return `Invalid role: ${userDetails.role}`;
-}
-
-// perform extra checks based on specific roles
-switch (userDetails.role) {
-case "admin":
-break;
-case "faculty":
-if (!userDetails.departmentId) return `Missing department Id for ${userDetails.role}`;
-if ( !mongoose.Types.ObjectId.isValid(userDetails.departmentId) ) return `Invalid ObjectId passed as departmentId`;
+// check if the salary field is populated
 if (!userDetails.salary) return `Missing salary for ${userDetails.role}`;
-if (!userDetails.hireDate) return `Missing date of hiring for ${userDetails.role}`;
 
 // validate date of hiring
+if (!userDetails.hireDate) return `Missing date of hiring for ${userDetails.role}`;
 const hireDate = new Date(userDetails.hireDate);
 if ( isNaN(hireDate.getTime()) ) {
 return `Invalid date format: ${hireDate}. Please provide date in the format YYYY/MM/DD`;
@@ -67,7 +56,22 @@ const currentDate = new Date();
 if ( hireDate > currentDate ) {
 return `Invalid date (${userDetails.hireDate}: )date of joining can not be a future date`;
 }
+
+// check if user details contain a valid role
+if ( !isValidRole(userDetails.role) ) {
+return `Invalid role: ${userDetails.role}`;
+}
+
+// perform extra checks based on specific roles
+switch (userDetails.role) {
+case "admin":
 break;
+
+case "faculty":
+if (!userDetails.departmentId) return `Missing department Id for ${userDetails.role}`;
+if ( !mongoose.Types.ObjectId.isValid(userDetails.departmentId) ) return `Invalid ObjectId passed as departmentId`;
+break;
+
 default:
 return `Inappropriate role for the functionality: ${userDetails.role}`;
 }
