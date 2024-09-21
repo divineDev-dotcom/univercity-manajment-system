@@ -11,7 +11,7 @@ const facultySchema = new Schema({
 employmentStatus: {
 type: String,
 enum: ["working", "retired", "resigned", "terminated"],
-required: true, trim: true
+default: "working", required: true, trim: true
 },
 departmentId: { type: ObjectId, required: true },
 hireDate: { type: Date, required: true },

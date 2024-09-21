@@ -13,6 +13,7 @@ const {User, Admin, Faculty} = require("../models/user-model");
 
 const createUserObject = (userDetails) => {
 let user = null;
+
 switch (userDetails.role) {
 case "admin":
 user = new Admin({
@@ -22,6 +23,7 @@ password: userDetails.password,
 personalDetails: userDetails.personalDetails
 });
 break;
+
 case "faculty":
 user = new Faculty({
 userName: userDetails.userName, 
@@ -32,8 +34,10 @@ departmentId: userDetails.departmentId,
 salary: userDetails.salary,
 hireDate: userDetails.hireDate
 });
+if (userDetails.employmentStatus) user.employmentStatus = userDetails.employmentStatus;
 if (userDetails.subjects && userDetails.subjects.length) user.subjects = userDetails.subjects;
 break;
+
 default:
 return "Invalid role";
 } // end switch

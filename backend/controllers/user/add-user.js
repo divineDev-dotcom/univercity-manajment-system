@@ -40,7 +40,7 @@ newUser.updatedBy = loggedInUserId
 await newUser.save();
 return res.status(201).json({error: false, msg: `New ${newUser.role} saved`, data: newUser});
 } catch(error) {
-console.error(`Error saving user: ${error.message}`);
+//console.error(`Error saving user: ${error.message}`);
 return res.status(500).json({error: true, msg: `Error saving user: ${error.message}`});
 }
 };

@@ -26,6 +26,7 @@ zipCode: 12345,
 createdBy: new mongoose.Types.ObjectId(), // Assuming createdBy is required
 });
 break;
+
 case "student":
 user = new Student({
 userName: 'testuser',
@@ -47,6 +48,34 @@ zipCode: 12345,
 createdBy: new mongoose.Types.ObjectId(), // Correctly creating ObjectId instance
 });
 break;
+
+case "faculty":
+user = new Faculty({
+userName: "facultyUser",
+email: "faculty@example.com",
+password: "password123",
+role: "faculty",
+personalDetails: {
+firstName: "Faculty",
+lastName: "User",
+birthday: "1975-05-15",
+gender: "male",
+phone: "9876543210",
+address: "789 Faculty Lane",
+city: "Faculty City",
+state: "Faculty State",
+country: "Faculty Country",
+zipCode: 54321,
+},
+employmentStatus: "working",
+departmentId: new mongoose.Types.ObjectId(), // Assume you provide a valid department ObjectId
+hireDate: "2010-08-01",
+salary: 50000.00, // Assume salary in Decimal128 format
+subjects: [new mongoose.Types.ObjectId()], // Assume valid subject ObjectId
+createdBy: new mongoose.Types.ObjectId(),
+});
+break;
+
 default:
 console.error(`Invalid role passed to test user creation: ${role}`);
 } // end switch 
