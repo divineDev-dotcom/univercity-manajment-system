@@ -11,8 +11,9 @@ Routes and their access:
 const express = require("express");
 const authenticateJWT = require("../middleware/jwt.js");
 const {isValidId} = require("../middleware/data-validations");
-const {checkAdminOrSelf} = require("../middleware/route-access-authentication");
+const {isAdmin, isAdminOrSelf} = require("../middleware/route-access-authentication");
 const {login, registerUser, getProfileById, updateUserProfile} = require("../controllers/user-controller");
+const addUser = require("../controllers/user/add-user");
 
 const userRouter = express.Router();
 
@@ -20,9 +21,10 @@ const userRouter = express.Router();
 userRouter.post("/login", login);
 
 // protected routes
+userRouter.post("/add", authenticateJWT, isAdmin, addUser);
 userRouter.post("/register",  authenticateJWT, registerUser);
-userRouter.get("/profile", authenticateJWT, isValidId, checkAdminOrSelf, getProfileById);
-userRouter.put("/update-profile/:_id", authenticateJWT, isValidId, checkAdminOrSelf, updateUserProfile);
+userRouter.get("/profile", authenticateJWT, isValidId, isAdminOrSelf, getProfileById);
+userRouter.put("/update-profile/:_id", authenticateJWT, isValidId, isAdminOrSelf, updateUserProfile);
 
 userRouter.get("/test", (req, res) => {
 res.send("Testing user routes.");

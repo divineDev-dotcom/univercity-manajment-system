@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const User = require("../models/user-model");
+const {User} = require("../models/user-model");
 const generateJWT = require("../helpers/jwt-helper");
 
 const login = async (req, res) => {

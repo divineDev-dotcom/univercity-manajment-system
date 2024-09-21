@@ -10,6 +10,7 @@ return(
 <Route path="/" element={ <Home /> } exact />
 <Route path="/privacypolicy" element={ <PrivacyPolicy /> } />
 <Route path="/termscondition" element={ <TermsAndCondition /> } />
+
 </Routes>
 
 );

@@ -1,10 +1,11 @@
 require("dotenv").config();
 const app = require("./app");
-const {connectToDB, gracefulShutdown} = require("./helpers/server-helper");
+const {connectToDB, createSuperAdmin, gracefulShutdown} = require("./helpers/server-helper");
 
 const startServer = async () => {
 try {
 await connectToDB();
+await createSuperAdmin();
 // start the express server
 const port = process.env.PORT || 5000;
 app.listen(port, (error) => {
