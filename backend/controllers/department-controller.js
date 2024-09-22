@@ -79,8 +79,9 @@ return res.status(500).json({ error: true, msg: `Error fetching department: ${er
 
 // Delete a department by ID
 const deleteDepartment = async (req, res) => {
+const { _id } = req.params;
 try {
-const deletedDepartment = await Department.findByIdAndDelete(req.params.id);
+const deletedDepartment = await Department.findByIdAndDelete(_id);
 if (!deletedDepartment) {
 return res.status(404).json({ error: true, msg: "Department not found" });
 }
