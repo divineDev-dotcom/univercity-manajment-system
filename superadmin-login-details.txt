@@ -1,3 +1,0 @@
-
-Username: superadmin
-Password: ums-access/1
