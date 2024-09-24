@@ -90,4 +90,4 @@ return res.status(500).json({ error: true, msg: `Error deleting department: ${er
 }
 };
 
-module.exports = {createDepartment, getDepartments, getDepartmentById, deleteDepartment};
+module.exports = {createDepartment, getDepartments, deleteDepartment};
