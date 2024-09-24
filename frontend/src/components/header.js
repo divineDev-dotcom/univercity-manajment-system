@@ -13,6 +13,9 @@ return(
 <li>
 <Link to="/"> Home </Link>
 </li>
+<li>
+<Link to="/studentadmission"> Apply for admissions </Link>
+</li>
 </ul>
 </nav>
 </header>

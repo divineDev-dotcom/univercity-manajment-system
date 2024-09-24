@@ -2,7 +2,9 @@ import { useState } from 'react';
 
 function UseAdmissionStates() {
   const [formState, setFormState] = useState({
-    name: '',
+    firstName: '',
+middleName: '',
+lastName: '',
     department: '',
     course: '',
     year: '',

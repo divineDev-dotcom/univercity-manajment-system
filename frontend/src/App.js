@@ -7,12 +7,13 @@ function App() {
   return (
     <Router>
       <div>
-        <Component.Header />
+{/*
 <div style={{ textAlign: 'center', margin: '20px 0' }}>
 <img src={ShootingStar} alt="Blue Shooting Star logo representing a shooting star that symbolizes making wishes come true." style={{ width: '150px', height: 'auto' }} // Adjust size as needed
           />
 </div>
-
+*/}
+        <Component.Header />
 <AppRoutes />
         <Component.Footer />
       </div>

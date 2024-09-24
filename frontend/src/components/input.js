@@ -1,6 +1,7 @@
 const Input = ({
   id,
   label,
+name,
   type = "text",
   value,
   onChange,
@@ -11,6 +12,7 @@ const Input = ({
       <label htmlFor={id}>{label}</label>
       <input
         id={id}
+name={name }
         type={type}
         value={value}
         onChange={onChange}
