@@ -12,7 +12,8 @@ const express = require("express");
 const authenticateJWT = require("../middleware/jwt.js");
 const {isValidId} = require("../middleware/data-validations");
 const {isAdmin, isAdminOrSelf} = require("../middleware/route-access-authentication");
-const {login, registerUser, getProfileById, updateUserProfile} = require("../controllers/user-controller");
+const { registerUser, getProfileById, updateUserProfile} = require("../controllers/user-controller");
+const login = require("../controllers/user/login");
 const addUser = require("../controllers/user/add-user");
 
 const userRouter = express.Router();

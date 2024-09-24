@@ -47,7 +47,7 @@ return res.status(500).json({error: true, msg: `Error saving department: ${error
 
 const getDepartments = async (req, res) => {
   try {
-    const departments = await Department.find();
+    const departments = await Department.find().populate('createdBy updatedBy', 'userName');
 
     // Check if there are no departments
     if (departments.length === 0) {
