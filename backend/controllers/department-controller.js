@@ -43,36 +43,35 @@ return res.status(500).json({error: true, msg: `Error saving department: ${error
 }
 };
 
-// Get all departments
+// get department according whether id provided or not
 
 const getDepartments = async (req, res) => {
-  try {
-    const departments = await Department.find().populate('createdBy updatedBy', 'userName');
-
-    // Check if there are no departments
-    if (departments.length === 0) {
-      return res.status(404).json({error: true, msg: 'No departments found'});
-    }
-
-    // Return the list of departments as JSON
-return res.status(200).json({error: false, msg: "Departments found", data: departments});
-  } catch (error) {
-    console.error("Error fetching departments:", error);
-return res.status(500).json({error: true, msg: 'Server error, could not fetch departments' });
-  }
-};
-
-
-// Get department by ID
-const getDepartmentById = async (req, res) => {
 try {
+// Check if department ID is provided in the request
+if (req.params.id) {
+// Get department by ID
 const department = await Department.findById(req.params.id).populate("headOfDepartment createdBy updatedBy");
+
 if (!department) {
 return res.status(404).json({ error: true, msg: "Department not found" });
 }
-return res.status(200).json({error: false, msg: 'Department found', data: department });
+
+// Return the department found
+return res.status(200).json({ error: false, msg: 'Department found', data: department });
+} else {
+// Get all departments
+const departments = await Department.find().populate('createdBy updatedBy', 'userName');
+
+// Check if no departments exist
+if (departments.length === 0) {
+return res.status(404).json({ error: true, msg: 'No departments found' });
+}
+
+// Return the list of departments
+return res.status(200).json({ error: false, msg: "Departments found", data: departments });
+}
 } catch (error) {
-return res.status(500).json({ error: true, msg: `Error fetching department: ${error.message}` });
+    return res.status(500).json({ error: true, msg: 'Server error, could not fetch departments' });
 }
 };
 
@@ -91,4 +90,4 @@ return res.status(500).json({ error: true, msg: `Error deleting department: ${er
 }
 };
 
-module.exports = {createDepartment, getDepartments, getDepartmentById, deleteDepartment};
+module.exports = {createDepartment, getDepartments, deleteDepartment};

@@ -13,7 +13,7 @@ const mongoose = require("mongoose");
 const { User } = require("../models/user-model");
 const createTestUserObject = require("./test-helpers/create-test-user-object");
 
-describe('POST /user/login', () => {
+describe('POST /api/user/login', () => {
   beforeAll(async () => {
     await mongoose.connect(process.env.MONGO_TEST_URI);
     const adminUser = createTestUserObject("admin");
