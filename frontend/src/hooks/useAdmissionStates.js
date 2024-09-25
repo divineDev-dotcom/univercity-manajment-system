@@ -6,6 +6,7 @@ function UseAdmissionStates() {
 middleName: '',
 lastName: '',
 country: '',
+province: '',
     department: '',
     course: '',
     year: '',
