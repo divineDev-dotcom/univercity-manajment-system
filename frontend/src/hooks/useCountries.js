@@ -7,7 +7,7 @@ const fetchCountries = async () => {
 try{
 const response = await fetch('https://restcountries.com/v3.1/all');
 const data = await response.json();
-        const countryOptions = data.map((country) => country.name.common);
+        const countryOptions = data.map((country) => country.name.common).sort((a, b) => a.localeCompare(b)); 
 setCountries(countryOptions);
 }
 catch (error) {
