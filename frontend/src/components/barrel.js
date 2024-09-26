@@ -3,6 +3,8 @@ export { default as Footer } from './footer';
 export { default as Input } from './input';
 export { default as Button } from './button';
 export { default as Collapsible } from './collapsibleComponent';
+export { default as RadioButton } from './radioButton';
+export { default as CheckBox } from './checkBox';
 export { default as Combobox } from './combobox';
 export { default as Menu } from './menu';
 export { default as studentdashboard } from '../pages/studentdashboard';
