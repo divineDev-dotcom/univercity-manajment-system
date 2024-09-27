@@ -78,9 +78,9 @@ return res.status(200).json({ error: false, msg: "Departments found", data: depa
 
 // Delete a department by ID
 const deleteDepartment = async (req, res) => {
-const { _id } = req.params;
+const { id } = req.params;
 try {
-const deletedDepartment = await Department.findByIdAndDelete(_id);
+const deletedDepartment = await Department.findByIdAndDelete(id);
 if (!deletedDepartment) {
 return res.status(404).json({ error: true, msg: "Department not found" });
 }
