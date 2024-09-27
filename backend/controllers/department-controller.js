@@ -90,4 +90,31 @@ return res.status(500).json({ error: true, msg: `Error deleting department: ${er
 }
 };
 
-module.exports = {createDepartment, getDepartments, deleteDepartment};
+// update department by id
+const updateDepartment = async (req, res) => {
+const { id } = req.params;
+const { departmentCode, departmentName, headOfDepartment } = req.body;
+
+try {
+const existingDepartment = await Department.findById(id);
+if (!existingDepartment) {
+return res.status(404).json({ error: true, msg: "Department not found." });
+}
+
+const updatedDepartment = await Department.findByIdAndUpdate(            id, {departmentCode, departmentName, headOfDepartment,
+updatedBy: req.user._id 
+            },
+{ new: true, runValidators: true }
+        );
+
+return res.status(200).json({
+error: false,
+msg: "Department updated successfully",
+data: updatedDepartment
+});
+} catch (error) {
+return res.status(500).json({ error: true, msg: `Error updating department: ${error.message}` });
+    }
+};
+
+module.exports = {createDepartment, getDepartments, deleteDepartment, updateDepartment};
