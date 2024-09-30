@@ -29,8 +29,8 @@ describe('POST /api/user/login', () => {
     const response = await request(app)
       .post('/api/user/login')
       .send({
-        userIdentity: 'adminUser',
-        password: 'password123',
+        userIdentity: "adminUser",
+        password: "password123",
       });
 
     expect(response.status).toBe(200);
@@ -43,8 +43,8 @@ describe('POST /api/user/login', () => {
     }
 
     expect(response.body.data.user).toMatchObject({
-      role: 'admin',
-      email: 'admin@example.com',
+      role: "admin",
+      email: "admin@example.com"
     });
   });
 
