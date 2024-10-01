@@ -12,6 +12,12 @@ return(
 <Route path="/termscondition" element={ <TermsAndCondition /> } />
 <Route path="/studentdashboard" element={ <studentdashboard /> } />
 <Route path="/studentadmission" element={<StudentDetails /> } />
+<Route path="/useAdmissionStates" element={< useAdmissionStates /> } />
+<Route path="/useCountries" element={< useCountries /> } />
+<Route path="/useProvinces" element={< useProvinces /> } />
+
+
+
 </Routes>
 
 );
