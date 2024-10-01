@@ -1,31 +1,26 @@
+import { Navigate, useNavigate} from 'react-router-dom';
 import UseAdmissionStates from '../hooks/useAdmissionStates';
 import UseCountries from '../hooks/useCountries';
-import UseProvinces from '../hooks/useProvinces'; // Make sure it's `UseProvinces`
+import UseCountryCodes from '../hooks/useCountryCodes';
 import * as component from './barrel';
-import { useEffect } from 'react';
 
 const StudentDetails = () => {
+const navigate = useNavigate();
   const { formState, handleChange, setFormState } = UseAdmissionStates();
   const countries = UseCountries(); // Fetch the country list
-  const provinces = UseProvinces(formState.country); // Fetch provinces based on selected country
-
-  useEffect(() => {
-    console.log("Selected Country:", formState.country);
-  }, [formState.country]);
-
-  useEffect(() => {
-    console.log("Fetched Provinces:", provinces);
-  }, [provinces]);
-
+const countryCodes = UseCountryCodes();
+const handleClick = () => {
+navigate("/studentfamilydetails");
+}
   return (
     <div>
+<main>
       <form>
         <fieldset>
-          <h2><legend>Personal Information</legend></h2>
+           <legend>Personal Information</legend>
           
-          {/* First Name */}
           <div>
-            <label htmlFor="first_name"> Please Enter your First Name: </label>
+            <label htmlFor="first_name"> First Name: </label>
             <component.Input 
               type="text" 
               name="firstName" 
@@ -35,9 +30,8 @@ const StudentDetails = () => {
             />
           </div>
 
-          {/* Middle Name */}
           <div>
-            <label htmlFor="middle_name"> Enter your Middle Name (optional): </label>
+            <label htmlFor="middle_name"> Middle Name (optional): </label>
             <component.Input 
               type="text" 
               id="middle_name" 
@@ -48,9 +42,8 @@ const StudentDetails = () => {
             />
           </div>
 
-          {/* Last Name */}
           <div>
-            <label htmlFor="last_name"> Please enter your Last Name: </label>
+            <label htmlFor="last_name"> Last Name: </label>
             <component.Input 
               type="text" 
               name="lastName" 
@@ -60,9 +53,8 @@ const StudentDetails = () => {
             />
           </div>
 
-          {/* Date of Birth */}
           <div>
-            <label htmlFor="DOB"> Please enter your Date Of Birth (DD/MM/YY) </label>
+            <label htmlFor="DOB"> enter your Date Of Birth (DD/MM/YY): </label>
             <component.Input 
               id="DOB" 
               name="dob" 
@@ -72,11 +64,10 @@ const StudentDetails = () => {
             />
           </div>
 
-          {/* Gender */}
           <div>
             <fieldset>
               <legend> Select your Gender:</legend>
-              <label htmlFor="gender">Select your Gender:</label>
+              <label htmlFor="gender">your Gender:</label>
               <component.RadioButton 
                 id="male" 
                 label="Male" 
@@ -94,56 +85,54 @@ const StudentDetails = () => {
                 checked={ formState.gender === "Female"} 
               />
               <component.RadioButton 
-                id="others" 
-                label="Others" 
+                id="other" 
+                label="Other" 
                 name="gender" 
-                value="Others" 
+                value="Other" 
                 onChange={ handleChange }
-                checked={ formState.gender === "Others"} 
+                checked={ formState.gender === "Other"} 
               />
             </fieldset>
           </div>
 
-          {/* Contact Information */}
           <fieldset>
-            <h3><legend>Contact Information</legend></h3>
+            <legend>Contact Information</legend>
             <div>
-              <label htmlFor="phone_number"> Please provide your Mobile Number: </label>
+              <label htmlFor="phone_number"> Enter your Phone Number: </label>
               <component.Input 
                 id="phone_number" 
-                type="number" 
-                name="mobile"
-                value={ formState.mobile } 
+                type="tel" 
+                name="phoneNo"
+                value={ formState.phoneNo} 
                 onChange={ handleChange } 
               />
             </div>
             <div>
-              <label htmlFor="email"> Please provide your Email Address: </label>
+              <label htmlFor="email">Enter  your Email Address: </label>
               <component.Input 
                 id="email" 
                 type="email" 
-                name="emailAddress" 
-                value={ formState.emailAddress } 
+                name="email" 
+                value={ formState.email} 
                 onChange={ handleChange } 
               />
             </div>
           </fieldset>
 
-          {/* Address */}
           <fieldset>
             <h3><legend>Address</legend></h3>
             <div>
-              <label htmlFor="full_address"> Please provide your Full Address: </label>
+              <label htmlFor="full_address"> your Address: </label>
               <component.Input 
                 id="full_address" 
                 type="text" 
-                name="fullAddress" 
-                value={ formState.fullAddress } 
+                name="address" 
+                value={ formState.address} 
                 onChange={ handleChange } 
               />
             </div>
             <div>
-              <label htmlFor="city"> Please provide your City: </label>
+              <label htmlFor="city"> City: </label>
               <component.Input 
                 id="city" 
                 type="text" 
@@ -153,7 +142,6 @@ const StudentDetails = () => {
               />
             </div>
 
-            {/* Country Selection */}
             <div>
               <label htmlFor="country"> Select your Country: </label>
               <component.Combobox 
@@ -161,26 +149,15 @@ const StudentDetails = () => {
                 name="country" 
                 options={countries} 
                 value={formState.country} 
-                onChange={(e) => {
-                  handleChange(e);
-                  setFormState(prevState => ({ ...prevState, province: "" })); // Reset province on country change
-                }} 
+                onChange={ handleChange } 
               />
             </div>
 
-            {/* Province Selection */}
-            {formState.country && provinces.length > 0 && (
-              <>
-                <div>
-                  <label htmlFor="province"> Select your State/Province: </label>
-                  <component.Combobox 
-                    id="province" 
-                    name="province" 
-                    options={provinces.map((province) => province.state_name)} 
-                    value={formState.province} 
-                    onChange={handleChange} 
-                  />
-                </div>
+<div>
+<label htmlFor="province"> enter your Province/state: </label>
+<component.Input type="text" id="province" name="province" value={ formState.province } onChange={ handleChange } required={true} />
+</div>
+
                 <div>
                   <label htmlFor="zip_code"> Please provide your Zip Code: </label>
                   <component.Input 
@@ -191,11 +168,13 @@ const StudentDetails = () => {
                     onChange={ handleChange } 
                   />
                 </div>
-              </>
-            )}
+              
+            
           </fieldset>
+<component.Button onClick={ handleClick } text="next to the family details" />
         </fieldset>
       </form>
+</main>
     </div>
   );
 }

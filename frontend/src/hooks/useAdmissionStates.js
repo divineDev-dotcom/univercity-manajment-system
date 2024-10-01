@@ -5,11 +5,16 @@ function UseAdmissionStates() {
     firstName: '',
 middleName: '',
 lastName: '',
+    dob: '',
+gender: '',
+countryCode: '',
+phoneNo: '',
+email: '',
+address: '',
+city: '',
 country: '',
 province: '',
-    department: '',
-    course: '',
-    year: '',
+zipCode: ''
     // Add more fields as needed
   });
 

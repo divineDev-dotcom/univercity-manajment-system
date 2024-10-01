@@ -8,13 +8,13 @@ const UseProvinces = (countries) => {
 
     const fetchProvinces = async () => {
       try {
-        const response = await fetch(https://www.universal-tutorial.com/api/states/${countries}, {
+        const response = await fetch(`https://www.universal-tutorial.com/api/states/${countries}`, {
           headers: {
             'Authorization': 'Bearer T1b-7blZGHtWHKKav4Epq5R_1GkL6EdGqLbpmvO5fCJftDQ8WLkrGLcPpH6MhMu5hzc',
             'Accept': 'application/json'
           }
         });
-        
+
         const data = await response.json();
         console.log(data); // Check what data looks like
         
