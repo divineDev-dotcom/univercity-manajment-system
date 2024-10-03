@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 
 const Checkbox = ({ label, checked, onChange, ...rest }) => {
   const [isChecked, setIsChecked] = useState(!!checked);
-
   useEffect(() => {
     setIsChecked(!!checked);
   }, [checked]);

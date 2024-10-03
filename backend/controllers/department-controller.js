@@ -96,16 +96,38 @@ const { id } = req.params;
 const { departmentCode, departmentName, headOfDepartment } = req.body;
 
 try {
+// Validate input
+if (!departmentCode || !departmentName) {
+return res.status(400).json({
+error: true,
+msg: 'Department code and name are required.'
+});
+}
+
+// Check if the department exists
 const existingDepartment = await Department.findById(id);
 if (!existingDepartment) {
 return res.status(404).json({ error: true, msg: "Department not found." });
 }
 
-const updatedDepartment = await Department.findByIdAndUpdate(            id, {departmentCode, departmentName, headOfDepartment,
-updatedBy: req.user._id 
-            },
+// Check for duplicate department code or name
+const duplicateDepartment = await Department.findOne({
+$or: [
+{ departmentCode, _id: { $ne: id } }, // Exclude current department ID
+{ departmentName, _id: { $ne: id } }
+]
+});
+
+if (duplicateDepartment) {
+return res.status(400).json({ error: true, msg: 'Department with this code or name already exists.' });
+}
+
+// Update department
+const updatedDepartment = await Department.findByIdAndUpdate(
+id,
+{ departmentCode, departmentName, headOfDepartment, updatedBy: req.user._id },
 { new: true, runValidators: true }
-        );
+);
 
 return res.status(200).json({
 error: false,
@@ -114,7 +136,7 @@ data: updatedDepartment
 });
 } catch (error) {
 return res.status(500).json({ error: true, msg: `Error updating department: ${error.message}` });
-    }
+}
 };
 
 module.exports = {createDepartment, getDepartments, deleteDepartment, updateDepartment};

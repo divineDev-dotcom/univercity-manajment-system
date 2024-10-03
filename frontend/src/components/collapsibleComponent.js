@@ -2,7 +2,6 @@ import React, { useState, useId } from 'react';
 
 const Collapsible = ({ title, children }) => {
   const [isOpen, setIsOpen] = useState(false);
-
   const handleToggle = () => {
     setIsOpen((prevState) => !prevState);
   };

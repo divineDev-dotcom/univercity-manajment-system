@@ -14,9 +14,12 @@ return(
 <Route path="/studentdashboard" element={ <studentdashboard /> } />
 <Route path="/studentadmission" element={<StudentDetails /> } />
 <Route path="/studentfamilydetails" element={ <FamilyDetails /> } />
+
+
+
 </Routes>
 
 );
-};
+}
 
 export default AppRoutes;

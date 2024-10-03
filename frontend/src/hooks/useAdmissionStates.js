@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
 function UseAdmissionStates() {
-  const [formState, setFormState] = useState({
-    firstName: '',
+const [formState, setFormState] = useState({
+firstName: '',
 middleName: '',
 lastName: '',
     dob: '',
@@ -16,9 +16,8 @@ country: '',
 province: '',
 zipCode: ''
     // Add more fields as needed
-  });
+    });
 
-  // Handle input changes dynamically
   function handleChange(event) {
     const name = event.target.name;
     const value = event.target.value;
@@ -29,14 +28,16 @@ zipCode: ''
     }));
   }
 
-  // Reset form to initial state
   function resetForm() {
     setFormState({
-      name: '',
+      firstName: '',
+      middleName: '',
+      lastName: '',
+      country: '',
+      province: '',
       department: '',
       course: '',
       year: '',
-      // Reset all other fields as needed
     });
   }
 

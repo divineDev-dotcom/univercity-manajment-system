@@ -4,17 +4,15 @@ import * as Component from './components/barrel';
 import ShootingStar from './ShootingStar.jpg'; // Import the logo
 
 function App() {
-  return (
-    <Router>
-      <div>
-{/*
+return (
+<Router>
+<img src={ShootingStar} alt="Blue Shooting Star logo" style={{ width: '150px', height: 'auto' }} />
+
+<div>
 <div style={{ textAlign: 'center', margin: '20px 0' }}>
-<img src={ShootingStar} alt="Blue Shooting Star logo representing a shooting star that symbolizes making wishes come true." style={{ width: '150px', height: 'auto' }} // Adjust size as needed
-          />
-</div>
-*/}
+        </div>
         <Component.Header />
-<AppRoutes />
+        <AppRoutes />
         <Component.Footer />
       </div>
     </Router>
