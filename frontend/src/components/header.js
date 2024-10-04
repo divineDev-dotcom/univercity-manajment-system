@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Menu } from './barrel';
+import { Menu, Collapsible  } from './barrel';
 
 const Header = () => {
   const accountMenuItems = [
@@ -9,6 +9,9 @@ const Header = () => {
   return (
     <div>
       <header>
+<Collapsible title="section one">
+<p> hi I am collapsible </p>
+</Collapsible>
          <Menu title="Account Manager" items={accountMenuItems} />
         <nav>
           <ul>
