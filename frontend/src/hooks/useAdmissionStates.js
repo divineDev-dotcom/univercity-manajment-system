@@ -14,7 +14,17 @@ address: '',
 city: '',
 country: '',
 province: '',
-zipCode: ''
+zipCode: '',
+fatherName: '',
+fatherPrefix: '',
+fatherPhoneNo: '',
+fatherEmail: '',
+fatherOccupation: '',
+motherPrefix: '',
+motherName: '',
+motherPhoneNo: '',
+motherEmail: '',
+motherOccupation: ''
     // Add more fields as needed
     });
 
