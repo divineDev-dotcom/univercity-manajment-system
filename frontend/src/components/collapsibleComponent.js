@@ -1,4 +1,4 @@
-import React, { useState, useId } from 'react';
+import { useState, useId } from 'react';
 
 const Collapsible = ({ title, children }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,7 +15,7 @@ const Collapsible = ({ title, children }) => {
         aria-expanded={isOpen}
         aria-controls={collapsibleId}
       >
-        <h3>{title}</h3> {/* Using heading tag for better semantics */}
+        {title} {/* Using heading tag for better semantics */}
       </button>
       {isOpen && (
         <div id={collapsibleId} role="region" aria-labelledby={collapsibleId}>

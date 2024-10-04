@@ -2,6 +2,8 @@ import { useState } from 'react';
 import UseAdmissionStates from '../hooks/useAdmissionStates';
 import * as component from './barrel';
 
+import StudentDetails from './studentDetails';
+import * as component from './barrel';
 const FamilyDetails = () => {
 const {formState, handleChange, setFormState} = UseAdmissionStates();
   const fatherPrefixes = [
@@ -126,6 +128,9 @@ return(
 </fieldset>
 </form>
 </main>
+<component.Collapsible title="personal information">
+<StudentDetails />
+</component.Collapsible>
 </div>
 );
 }
