@@ -122,7 +122,7 @@ navigate("/studentfamilydetails");
           </fieldset>
 
           <fieldset>
-            <h3><legend>Address</legend></h3>
+            <legend>Address</legend>
             <div>
               <label htmlFor="full_address"> your Address: </label>
               <component.Input 
