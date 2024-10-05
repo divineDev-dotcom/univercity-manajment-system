@@ -1,12 +1,14 @@
 import { Navigate, useNavigate} from 'react-router-dom';
-import UseAdmissionStates from '../hooks/useAdmissionStates';
+//import UseAdmissionStates from '../hooks/useAdmissionStates';
+import { useAdmissionContext } from '../context/admissionContext';
 import UseCountries from '../hooks/useCountries';
 import UseCountryCodes from '../hooks/useCountryCodes';
 import * as component from './barrel';
 
 const StudentDetails = () => {
 const navigate = useNavigate();
-  const { formState, handleChange, setFormState } = UseAdmissionStates();
+ //const { formState, handleChange, setFormState } = UseAdmissionStates();
+const { formState, handleChange } = useAdmissionContext();
   const countries = UseCountries(); // Fetch the country list
 const countryCodes = UseCountryCodes();
 const handleClick = () => {
@@ -24,8 +26,8 @@ navigate("/studentfamilydetails");
             <component.Input 
               type="text" 
               name="firstName" 
-              value={formState.firstName} 
-              onChange={handleChange} 
+              value={formState.personalInformation.firstName} 
+              onChange={(event) => handleChange('personalInformation', event)} 
               id="first_name" 
             />
           </div>

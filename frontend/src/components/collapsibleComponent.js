@@ -1,12 +1,18 @@
 import { useState, useId } from 'react';
 
-const Collapsible = ({ title, children }) => {
+const Collapsible = ({ title, children, onClick }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const handleToggle = () => {
-    setIsOpen((prevState) => !prevState);
-  };
+  const collapsibleId = useId();
 
-   const collapsibleId = useId();
+  const handleToggle = () => {
+    // First, toggle the collapsible
+    setIsOpen((prevState) => !prevState);
+    
+    // Then, trigger the onClick prop to navigate to the section
+    if (onClick) {
+      onClick(); // Call the provided onClick handler if it exists
+    }
+  };
 
   return (
     <div>
@@ -15,7 +21,7 @@ const Collapsible = ({ title, children }) => {
         aria-expanded={isOpen}
         aria-controls={collapsibleId}
       >
-        {title} {/* Using heading tag for better semantics */}
+        {title}
       </button>
       {isOpen && (
         <div id={collapsibleId} role="region" aria-labelledby={collapsibleId}>
