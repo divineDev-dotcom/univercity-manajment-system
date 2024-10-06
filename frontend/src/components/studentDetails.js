@@ -1,4 +1,4 @@
-import { Navigate, useNavigate} from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 //import UseAdmissionStates from '../hooks/useAdmissionStates';
 import { useAdmissionContext } from '../context/admissionContext';
 import UseCountries from '../hooks/useCountries';
@@ -7,15 +7,15 @@ import * as component from './barrel';
 
 const StudentDetails = () => {
 const navigate = useNavigate();
- //const { formState, handleChange, setFormState } = UseAdmissionStates();
+//const { formState, handleChange, setFormState } = UseAdmissionStates();
 const { formState, handleChange } = useAdmissionContext();
-  const countries = UseCountries(); // Fetch the country list
+const countries = UseCountries(); 
 const countryCodes = UseCountryCodes();
 const handleClick = () => {
 navigate("/studentfamilydetails");
 }
-  return (
-    <div>
+return (
+<div>
 <main>
       <form>
         <fieldset>
@@ -38,8 +38,8 @@ navigate("/studentfamilydetails");
               type="text" 
               id="middle_name" 
               name="middleName" 
-              value={formState.middleName} 
-              onChange={handleChange} 
+              value={formState.personalInformation.middleName} 
+              onChange={(event) => handleChange('personalInformation', event)} 
               required={false} 
             />
           </div>
@@ -49,8 +49,8 @@ navigate("/studentfamilydetails");
             <component.Input 
               type="text" 
               name="lastName" 
-              value={ formState.lastName } 
-              onChange={ handleChange } 
+              value={formState.personalInformation.lastName} 
+              onChange={(event) => handleChange('personalInformation', event)} 
               id="last_name" 
             />
           </div>
@@ -61,8 +61,8 @@ navigate("/studentfamilydetails");
               id="DOB" 
               name="dob" 
               type="text" 
-              value={ formState.dob } 
-              onChange={ handleChange } 
+              value={formState.personalInformation.dob} 
+              onChange={(event) => handleChange('personalInformation', event)} 
             />
           </div>
 
@@ -75,24 +75,24 @@ navigate("/studentfamilydetails");
                 label="Male" 
                 name="gender" 
                 value="Male" 
-                onChange={ handleChange }
-                checked={ formState.gender === "Male"} 
+                onChange={(event) => handleChange('personalInformation', event)} 
+                checked={formState.personalInformation.gender === "Male"} 
               />
               <component.RadioButton 
                 id="female" 
                 label="Female" 
                 name="gender" 
                 value="Female" 
-                onChange={ handleChange }
-                checked={ formState.gender === "Female"} 
+                onChange={(event) => handleChange('personalInformation', event)} 
+                checked={formState.personalInformation.gender === "Female"} 
               />
               <component.RadioButton 
                 id="other" 
                 label="Other" 
                 name="gender" 
                 value="Other" 
-                onChange={ handleChange }
-                checked={ formState.gender === "Other"} 
+                onChange={(event) => handleChange('personalInformation', event)} 
+                checked={formState.personalInformation.gender === "Other"} 
               />
             </fieldset>
           </div>
@@ -105,8 +105,8 @@ navigate("/studentfamilydetails");
                 id="phone_number" 
                 type="tel" 
                 name="phoneNo"
-                value={ formState.phoneNo} 
-                onChange={ handleChange } 
+                value={formState.personalInformation.phoneNo} 
+                onChange={(event) => handleChange('personalInformation', event)} 
               />
             </div>
             <div>
@@ -115,8 +115,8 @@ navigate("/studentfamilydetails");
                 id="email" 
                 type="email" 
                 name="email" 
-                value={ formState.email} 
-                onChange={ handleChange } 
+                value={formState.personalInformation.email} 
+                onChange={(event) => handleChange('personalInformation', event)} 
               />
             </div>
           </fieldset>
@@ -129,8 +129,8 @@ navigate("/studentfamilydetails");
                 id="full_address" 
                 type="text" 
                 name="address" 
-                value={ formState.address} 
-                onChange={ handleChange } 
+                value={formState.personalInformation.address} 
+                onChange={(event) => handleChange('personalInformation', event)} 
               />
             </div>
             <div>
@@ -139,8 +139,8 @@ navigate("/studentfamilydetails");
                 id="city" 
                 type="text" 
                 name="city" 
-                value={ formState.city } 
-                onChange={ handleChange } 
+                value={formState.personalInformation.city} 
+                onChange={(event) => handleChange('personalInformation', event)} 
               />
             </div>
 
@@ -150,14 +150,14 @@ navigate("/studentfamilydetails");
                 id="country" 
                 name="country" 
                 options={countries} 
-                value={formState.country} 
-                onChange={ handleChange } 
+                value={formState.personalInformation.country} 
+                onChange={(event) => handleChange('personalInformation', event)} 
               />
             </div>
 
 <div>
 <label htmlFor="province"> enter your Province/state: </label>
-<component.Input type="text" id="province" name="province" value={ formState.province } onChange={ handleChange } required={true} />
+<component.Input type="text" id="province" name="province" value={formState.personalInformation.province} onChange={(event) => handleChange('personalInformation', event)} required={true} />
 </div>
 
                 <div>
@@ -166,8 +166,8 @@ navigate("/studentfamilydetails");
                     id="zip_code" 
                     type="text" 
                     name="zipCode" 
-                    value={ formState.zipCode } 
-                    onChange={ handleChange } 
+                    value={formState.personalInformation.zipCode} 
+                    onChange={(event) => handleChange('personalInformation', event)} 
                   />
                 </div>
               
